@@ -75,8 +75,8 @@ public class JFCConstants {
     // public static List<String> sIgnoreWindowList = Util.getListFromFile(
     // IGNORED_DIR + IGNORED_WINDOW_FILE, false);
 
-    public static List<String> sTerminalWidgetList = Util.getListFromFile(
-            CONFIG_DIR + File.separator + TERMINAL_WIDGET_FILE, true);
+	// public static List<String> sTerminalWidgetList = Util.getListFromFile(
+	// CONFIG_DIR + File.separator + TERMINAL_WIDGET_FILE, true);
 
     // public static List<GSignature> sTerminalWidgetPaterns = new
     // LinkedList<GSignature>();
