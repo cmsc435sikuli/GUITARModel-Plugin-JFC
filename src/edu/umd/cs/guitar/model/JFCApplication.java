@@ -104,12 +104,13 @@ public class JFCApplication extends GApplication {
 
 		URL[] arrayURLs = (URL[]) (lURLs.toArray(new URL[lURLs.size()]));
 		// --------------
-		GUITARLog.log.debug("===========================");
-		GUITARLog.log.debug("All URLs: ");
+		GUITARLog.log.debug("=============================");
+		GUITARLog.log.debug("Application URLs: ");
+		GUITARLog.log.debug("-----------------------------");
 		for (URL url : arrayURLs) {
 			GUITARLog.log.debug("\t" + url.getPath());
 		}
-		GUITARLog.log.debug("===========================");
+		GUITARLog.log.debug("");
 
 		// ---------------
 
@@ -139,10 +140,11 @@ public class JFCApplication extends GApplication {
 	public void connect(String[] args) throws ApplicationConnectException {
 
 		GUITARLog.log.debug("=============================");
-		GUITARLog.log.debug("Application parameters: ");
+		GUITARLog.log.debug("Application Parameters: ");
+		GUITARLog.log.debug("-----------------------------");
 		for (int i = 0; i < args.length; i++)
 			GUITARLog.log.debug("\t" + args[i]);
-		GUITARLog.log.debug("=============================");
+		GUITARLog.log.debug("");
 
 		Method method;
 
@@ -161,8 +163,8 @@ public class JFCApplication extends GApplication {
 		} catch (NoSuchMethodException e) {
 			GUITARLog.log
 					.debug("Coundn't find main method for the application");
+			GUITARLog.log.error(e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			GUITARLog.log.error(e);
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
