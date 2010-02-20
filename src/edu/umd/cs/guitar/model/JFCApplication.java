@@ -37,191 +37,189 @@ import edu.umd.cs.guitar.util.GUITARLog;
 import edu.umd.cs.guitar.model.JFCXWindow;
 
 /**
- * Implementation for  {@link GApplication} for Java Swing
- *  
+ * Implementation for {@link GApplication} for Java Swing
+ * 
  * @see GApplication
  * 
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao Nguyen </a>
  */
 public class JFCApplication extends GApplication {
 
-    private Class<?> cClass;
-    String sClassName;
-    int iInitialDelay;
+	private Class<?> cClass;
+	String sClassName;
+	int iInitialDelay;
 
-    /**
-     * @param sClassName
-     * @param iInitalDelay
-     * @throws ClassNotFoundException
-     */
-    @Deprecated
-    public JFCApplication(String sClassName, int iInitialDelay)
-            throws ClassNotFoundException {
-        super();
-        this.cClass = Class.forName(sClassName);
-        this.sClassName = sClassName;
-        this.iInitialDelay = iInitialDelay;
-    }
+	/**
+	 * @param sClassName
+	 * @param iInitalDelay
+	 * @throws ClassNotFoundException
+	 */
+	@Deprecated
+	public JFCApplication(String sClassName, int iInitialDelay)
+			throws ClassNotFoundException {
+		super();
+		this.cClass = Class.forName(sClassName);
+		this.sClassName = sClassName;
+		this.iInitialDelay = iInitialDelay;
+	}
 
-    final String[] URL_PREFIX = { "file:", "jar:", "http:" };
+	final String[] URL_PREFIX = { "file:", "jar:", "http:" };
 
-    /**
-     * @param sClassName
-     * @param sURLs
-     * @throws ClassNotFoundException
-     * @throws MalformedURLException
-     */
-    public JFCApplication(String sClassName, String[] sURLs)
-            throws ClassNotFoundException, MalformedURLException {
-        super();
+	/**
+	 * @param sClassName
+	 * @param sURLs
+	 * @throws ClassNotFoundException
+	 * @throws MalformedURLException
+	 */
+	public JFCApplication(String sClassName, String[] sURLs)
+			throws ClassNotFoundException, MalformedURLException {
+		super();
 
-        Set<URL> lURLs = new HashSet<URL>();
+		Set<URL> lURLs = new HashSet<URL>();
 
-        // System URLs
-        URLClassLoader sysLoader = (URLClassLoader) ClassLoader
-                .getSystemClassLoader();
-        URL urls[] = sysLoader.getURLs();
-        for (int i = 0; i < urls.length; i++) {
-            lURLs.add(urls[i]);
-        }
+		// System URLs
+		URLClassLoader sysLoader = (URLClassLoader) ClassLoader
+				.getSystemClassLoader();
+		URL urls[] = sysLoader.getURLs();
+		for (int i = 0; i < urls.length; i++) {
+			lURLs.add(urls[i]);
+		}
 
-        // Additional URLs passed by arguments
-        for (String sURL : sURLs) {
-            for (String pref : URL_PREFIX) {
-                if (sURL.startsWith(pref)) {
+		// Additional URLs passed by arguments
+		for (String sURL : sURLs) {
+			for (String pref : URL_PREFIX) {
+				if (sURL.startsWith(pref)) {
 
-                    URL appURL = new URL(sURL);
-                    lURLs.add(appURL);
+					URL appURL = new URL(sURL);
+					lURLs.add(appURL);
 
-                    // GUITARLog.log.debug("GOT Application URL!!!!");
-                    // GUITARLog.log.debug("Original: " + sURL);
-                    // GUITARLog.log.debug("Converted: " + appURL.getPath());
+					// GUITARLog.log.debug("GOT Application URL!!!!");
+					// GUITARLog.log.debug("Original: " + sURL);
+					// GUITARLog.log.debug("Converted: " + appURL.getPath());
 
-                    break;
-                }
-            }
-        }
+					break;
+				}
+			}
+		}
 
-        URL[] arrayURLs = (URL[]) (lURLs.toArray(new URL[lURLs.size()]));
-        // --------------
-        GUITARLog.log.debug("===========================");
-        GUITARLog.log.debug("All URLs: ");
-        for (URL url : arrayURLs) {
-            GUITARLog.log.debug("\t" + url.getPath());
-        }
-        GUITARLog.log.debug("===========================");
+		URL[] arrayURLs = (URL[]) (lURLs.toArray(new URL[lURLs.size()]));
+		// --------------
+		GUITARLog.log.debug("===========================");
+		GUITARLog.log.debug("All URLs: ");
+		for (URL url : arrayURLs) {
+			GUITARLog.log.debug("\t" + url.getPath());
+		}
+		GUITARLog.log.debug("===========================");
 
-        // ---------------
+		// ---------------
 
-        URLClassLoader loader = new URLClassLoader(arrayURLs);
-        this.cClass = Class.forName(sClassName, true, loader);
-        // this.cClass = Class.forName(sClassName);
-        this.sClassName = sClassName;
-    }
+		URLClassLoader loader = new URLClassLoader(arrayURLs);
+		this.cClass = Class.forName(sClassName, true, loader);
+		// this.cClass = Class.forName(sClassName);
+		this.sClassName = sClassName;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.umd.cs.guitar.util.Application#start()
-     */
-    @Override
-    public void connect() throws ApplicationConnectException {
-        String[] args = new String[0];
-        connect(args);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.util.Application#start()
+	 */
+	@Override
+	public void connect() throws ApplicationConnectException {
+		String[] args = new String[0];
+		connect(args);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.umd.cs.guitar.util.GApplication#start(java.lang.String[])
-     */
-    @Override
-    public void connect(String[] args) throws ApplicationConnectException {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.util.GApplication#start(java.lang.String[])
+	 */
+	@Override
+	public void connect(String[] args) throws ApplicationConnectException {
 
-        GUITARLog.log.debug("=============================");
-        GUITARLog.log.debug("Application parameters: ");
-        for (int i = 0; i < args.length; i++)
-            GUITARLog.log.debug("\t" + args[i]);
-        GUITARLog.log.debug("=============================");
+		GUITARLog.log.debug("=============================");
+		GUITARLog.log.debug("Application parameters: ");
+		for (int i = 0; i < args.length; i++)
+			GUITARLog.log.debug("\t" + args[i]);
+		GUITARLog.log.debug("=============================");
 
-        Method method;
-        try {
-            method = cClass.getMethod("main", new Class[] { String[].class });
+		Method method;
 
-            if (method != null) {
-                method.invoke(null, new Object[] { args });
-            }
+		try {
+			method = cClass.getMethod("main", new Class[] { String[].class });
 
-            else
-                throw new ApplicationConnectException();
+			if (method != null) {
+				method.invoke(null, new Object[] { args });
+			}
 
-        } catch (SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            GUITARLog.log
-                    .debug("Coundn't find main method for the application");
-        } catch (IllegalArgumentException e) {
-            GUITARLog.log.debug("Application arguments are illeagal");
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+			else
+				throw new ApplicationConnectException();
 
-        try {
-            Thread.sleep(iInitialDelay);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+			// } catch (SecurityException e) {
+			// // TODO Auto-generated catch block
+		} catch (NoSuchMethodException e) {
+			GUITARLog.log
+					.debug("Coundn't find main method for the application");
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			GUITARLog.log.error(e);
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			GUITARLog.log.error(e);
+		}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see edu.umd.cs.guitar.model.GApplication#getAllWindow()
-     */
-    @Override
-    public Set<GWindow> getAllWindow() {
-        Frame[] windows = Frame.getFrames();
+		try {
+			Thread.sleep(iInitialDelay);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			GUITARLog.log.error(e);
+		}
+	}
 
-        Set<GWindow> retWindows = new HashSet<GWindow>();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.model.GApplication#getAllWindow()
+	 */
+	@Override
+	public Set<GWindow> getAllWindow() {
+		Frame[] windows = Frame.getFrames();
 
-        for (Frame aWindow : windows) {
-            GWindow gWindow = new JFCXWindow(aWindow);
-            if (gWindow.isValid())
-                retWindows.add(gWindow);
-            Set<GWindow> lOwnedWins = getAllOwnedWindow(aWindow);
+		Set<GWindow> retWindows = new HashSet<GWindow>();
 
-            for (GWindow aOwnedWins : lOwnedWins) {
+		for (Frame aWindow : windows) {
+			GWindow gWindow = new JFCXWindow(aWindow);
+			if (gWindow.isValid())
+				retWindows.add(gWindow);
+			Set<GWindow> lOwnedWins = getAllOwnedWindow(aWindow);
 
-                if (aOwnedWins.isValid())
-                    retWindows.add(aOwnedWins);
-            }
+			for (GWindow aOwnedWins : lOwnedWins) {
 
-        }
+				if (aOwnedWins.isValid())
+					retWindows.add(aOwnedWins);
+			}
 
-        return retWindows;
-    }
+		}
 
-    private Set<GWindow> getAllOwnedWindow(Window parent) {
-        Set<GWindow> retWindows = new HashSet<GWindow>();
-        Window[] lOwnedWins = parent.getOwnedWindows();
-        for (Window aOwnedWin : lOwnedWins) {
-            retWindows.add(new JFCXWindow(aOwnedWin));
-            Set<GWindow> lOwnedWinChildren = getAllOwnedWindow(aOwnedWin);
+		return retWindows;
+	}
 
-            retWindows.addAll(lOwnedWinChildren);
-        }
-        return retWindows;
-    }
+	private Set<GWindow> getAllOwnedWindow(Window parent) {
+		Set<GWindow> retWindows = new HashSet<GWindow>();
+		Window[] lOwnedWins = parent.getOwnedWindows();
+		for (Window aOwnedWin : lOwnedWins) {
+			retWindows.add(new JFCXWindow(aOwnedWin));
+			Set<GWindow> lOwnedWinChildren = getAllOwnedWindow(aOwnedWin);
 
-    // @Override
-    // public GUIStructure getCurrentState() {
-    //     
-    // }
+			retWindows.addAll(lOwnedWinChildren);
+		}
+		return retWindows;
+	}
+
+	// @Override
+	// public GUIStructure getCurrentState() {
+	//     
+	// }
 
 }

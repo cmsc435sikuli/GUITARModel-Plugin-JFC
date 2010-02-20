@@ -48,6 +48,7 @@ import edu.umd.cs.guitar.model.data.AttributesType;
 import edu.umd.cs.guitar.model.data.ComponentType;
 import edu.umd.cs.guitar.model.data.PropertyType;
 import edu.umd.cs.guitar.model.wrapper.AttributesTypeWrapper;
+import edu.umd.cs.guitar.util.GUITARLog;
 
 /**
  * Implementation for {@link GWindow} for Java Swing
@@ -119,14 +120,6 @@ public class JFCXComponent extends GComponent {
 		retList.addAll(lBeanProperties);
 
 		// Get Screenshot
-
-		// try {
-		// Thread.sleep(2000);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// // captureImage();
 
 		return retList;
 
@@ -475,7 +468,6 @@ public class JFCXComponent extends GComponent {
 			else
 				return false;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		} 
 	}
@@ -502,9 +494,9 @@ public class JFCXComponent extends GComponent {
 
 		} catch (AWTException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			GUITARLog.log.error(e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			GUITARLog.log.error(e);
 		}
 
 	}

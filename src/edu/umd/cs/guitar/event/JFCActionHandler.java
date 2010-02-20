@@ -61,23 +61,23 @@ public class JFCActionHandler extends JFCEventHandler {
 		if (aAction == null)
 			return;
 
-		try {
+		// try {
 
-			int nActions = aAction.getAccessibleActionCount();
-			if (nActions > 0) {
+		int nActions = aAction.getAccessibleActionCount();
+		if (nActions > 0) {
 
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						aAction.doAccessibleAction(0);
-					}
-				});
-
-			}
-			System.out.println("NEW Event Handler");
-		} catch (Exception e) {
-			GUITARLog.log.error("Cannot expand", e);
+			aAction.doAccessibleAction(0);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					aAction.doAccessibleAction(0);
+				}
+			});
 
 		}
+		// } catch (Exception e) {
+		// GUITARLog.log.error("Cannot expand", e);
+		//
+		// }
 	}
 
 	/*

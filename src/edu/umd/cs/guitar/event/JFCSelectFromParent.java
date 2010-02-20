@@ -28,6 +28,7 @@ import javax.accessibility.AccessibleContext;
 
 import edu.umd.cs.guitar.model.GComponent;
 import edu.umd.cs.guitar.model.JFCXComponent;
+import edu.umd.cs.guitar.util.GUITARLog;
 
 /**
  * Select a sub-item by calling a selection function form its parent
@@ -66,15 +67,15 @@ public class JFCSelectFromParent extends JFCEventHandler {
                         "setSelectedComponent", Component.class);
                 selectionMethod.invoke(aParent, cChild);
             } catch (SecurityException e) {
-                e.printStackTrace();
+    			GUITARLog.log.error(e);
             } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+    			GUITARLog.log.error(e);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+    			GUITARLog.log.error(e);
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+    			GUITARLog.log.error(e);
             } catch (InvocationTargetException e) {
-                e.printStackTrace();
+    			GUITARLog.log.error(e);
             }
         }
 
