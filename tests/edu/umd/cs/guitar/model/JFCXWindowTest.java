@@ -129,7 +129,7 @@ public class JFCXWindowTest extends TestCase {
         System.out.println("getFullID");
         JFCXWindow instance = null;
         String expResult = "";
-        String result = instance.getFullID();
+        String result = instance.getTitle();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -152,7 +152,7 @@ public class JFCXWindowTest extends TestCase {
         EasyMock.replay(mockWindow);
 
         String expResult = mockWindow.getClass().getName();
-        String result = instance.getName();
+        String result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 2 - aContext != null and sName = null */
@@ -165,7 +165,7 @@ public class JFCXWindowTest extends TestCase {
         EasyMock.replay(mockWindow,mockAccessibleContext);
 
         expResult =mockWindow.getClass().getName();
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 3 - aContext != null and sName != null */
@@ -178,7 +178,7 @@ public class JFCXWindowTest extends TestCase {
         EasyMock.replay(mockWindow,mockAccessibleContext);
 
         expResult = "test";
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
         
     }
@@ -204,7 +204,7 @@ public class JFCXWindowTest extends TestCase {
         Object window = null;
         JFCXWindow instance = null;
         boolean expResult = false;
-        boolean result = instance.equals1(window);
+        boolean result = instance.equals(window);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

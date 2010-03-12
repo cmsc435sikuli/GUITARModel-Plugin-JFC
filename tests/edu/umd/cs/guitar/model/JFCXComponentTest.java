@@ -286,7 +286,7 @@ public class JFCXComponentTest extends TestCase {
         expResult = "";
         mockComponent = null;
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 2 - context is null */
@@ -296,7 +296,7 @@ public class JFCXComponentTest extends TestCase {
         EasyMock.expect(mockComponent.getAccessibleContext()).andReturn(mockContext);
         EasyMock.replay(mockComponent);
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 3 - sName is not null */
@@ -307,7 +307,7 @@ public class JFCXComponentTest extends TestCase {
         EasyMock.expect(mockContext.getAccessibleName()).andReturn(sName);
         EasyMock.replay(mockComponent,mockContext);
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 4 - sName is null, icon should return null */
@@ -318,7 +318,7 @@ public class JFCXComponentTest extends TestCase {
         EasyMock.expect(mockContext.getAccessibleName()).andReturn(null);
         EasyMock.replay(mockComponent,mockContext);
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
         /* Test 5 - mockComponent is a button */
@@ -330,7 +330,7 @@ public class JFCXComponentTest extends TestCase {
         EasyMock.expect(((Button)mockComponent).getName()).andReturn(expResult);
         EasyMock.replay(mockComponent,mockContext);
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
                 /* Test 6 - mockComponent is a button */
@@ -344,7 +344,7 @@ public class JFCXComponentTest extends TestCase {
         EasyMock.expect(((Button)mockComponent).getY()).andReturn(1);
         EasyMock.replay(mockComponent,mockContext);
         instance = new JFCXComponent(mockComponent);
-        result = instance.getName();
+        result = instance.getTitle();
         assertEquals(expResult, result);
 
 
