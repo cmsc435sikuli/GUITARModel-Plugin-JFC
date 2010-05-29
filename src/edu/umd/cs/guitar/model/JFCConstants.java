@@ -103,6 +103,11 @@ public class JFCConstants {
 			"tooltip", "font", "accelerator", "enabled", "focusable",
 			"selected", "text");
 
+	static List<String> WINDOW_PROPERTIES_LIST = Arrays.asList("layout", "x",
+			"y", "height", "width", "opaque", "visible", "alwaysOnTop",
+			"defaultLookAndFeelDecorated", "font", "foreground", "insets",
+			"resizable", "background", "colorModel", "iconImage", "locale");
+
 	/**
 	 * List of properties used to identify a widget on the GUI
 	 */

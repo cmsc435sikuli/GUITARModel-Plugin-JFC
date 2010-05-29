@@ -19,36 +19,111 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.awt.Component;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleAction;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleSelection;
+
 import edu.umd.cs.guitar.model.GComponent;
+import edu.umd.cs.guitar.util.GUITARLog;
 
 /**
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao Nguyen </a>
  */
 public class JFCSelectionHandler extends JFCEventHandler {
 
-    /**
+	Integer selectedIndex;
+
+	/**
      * 
      */
-    public JFCSelectionHandler() {
-        // TODO Auto-generated constructor stub
-    }
+	public JFCSelectionHandler() {
+		// TODO Auto-generated constructor stub
+	}
 
-    /* (non-Javadoc)
-     * @see edu.umd.cs.guitar.event.JEventHandler#actionPerformImp(edu.umd.cs.guitar.model.GXComponent)
-     */
-    @Override
-    protected void performImpl(GComponent component) {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.JEventHandler#actionPerformImp(edu.umd.cs.guitar
+	 * .model.GXComponent)
+	 */
+	@Override
+	protected void performImpl(GComponent component) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see edu.umd.cs.guitar.event.JFCEventHandler#actionPerformImp(edu.umd.cs.guitar.model.GXComponent, java.lang.Object)
-     */
-    @Override
-    protected void performImpl(GComponent gComponent, Object parameters) {
-        // TODO Auto-generated method stub
-        
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.JFCEventHandler#actionPerformImp(edu.umd.cs.guitar
+	 * .model.GXComponent, java.lang.Object)
+	 */
+	@Override
+	protected void performImpl(GComponent gComponent, Object parameters) {
 
+		if (parameters instanceof List<?>) {
+			List<String> lParameter = (List<String>) parameters;
+			if (lParameter == null) {
+				selectedIndex = 0;
+			} else {
+				String sIndex = (lParameter.size() != 0) ? lParameter.get(0)
+						: "0";
+				try {
+					selectedIndex = Integer.parseInt(sIndex);
+				} catch (Exception e) {
+					selectedIndex = 0;
+				}
+			}
+		}
+
+		if (gComponent == null) {
+			return;
+		}
+
+		Accessible aComponent = getAccessible(gComponent);
+
+		if (aComponent == null)
+			return;
+
+		AccessibleContext aContext = aComponent.getAccessibleContext();
+
+		if (aContext == null)
+			return;
+		final AccessibleSelection aSelection = aContext
+				.getAccessibleSelection();
+
+		if (aSelection == null)
+			return;
+
+		Method selectionMethod;
+
+		try {
+			selectionMethod = gComponent.getClass().getMethod(
+					"setSelectedIndex", Component.class);
+
+			Component component = (Component) aComponent;
+			selectionMethod.invoke(component, selectedIndex);
+
+		} catch (SecurityException e) {
+			GUITARLog.log.error(e);
+		} catch (NoSuchMethodException e) {
+			GUITARLog.log.error(e);
+		} catch (IllegalArgumentException e) {
+			GUITARLog.log.error(e);
+		} catch (IllegalAccessException e) {
+			GUITARLog.log.error(e);
+		} catch (InvocationTargetException e) {
+			GUITARLog.log.error(e);
+		}
+
+		// aSelection.
+	}
 }
