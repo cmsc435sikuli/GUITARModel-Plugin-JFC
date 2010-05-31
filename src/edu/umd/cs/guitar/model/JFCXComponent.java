@@ -60,7 +60,6 @@ import edu.umd.cs.guitar.util.GUITARLog;
  */
 public class JFCXComponent extends GComponent {
 
-	
 	Component component;
 	Accessible aComponent;
 
@@ -77,7 +76,7 @@ public class JFCXComponent extends GComponent {
 	public JFCXComponent(Accessible aComponent) {
 		super();
 		this.aComponent = aComponent;
-		this.component=(Component) aComponent;
+		this.component = (Component) aComponent;
 	}
 
 	/**
@@ -244,45 +243,71 @@ public class JFCXComponent extends GComponent {
 	@Override
 	public List<GComponent> getChildren() {
 
+		GUITARLog.log.debug("ENTERING getChildren...");
+
+		if (component instanceof Container)
+			GUITARLog.log.debug("\t Component Chidren: "
+					+ ((Container) component).getComponentCount());
+
 		List<GComponent> retList = new ArrayList<GComponent>();
 
+		try {
+			AccessibleContext aContext = component.getAccessibleContext();
+
+			if (aContext == null)
+				return retList;
+			int nChildren = aContext.getAccessibleChildrenCount();
+
+			GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
+
+			for (int i = 0; i < nChildren; i++) {
+
+				Accessible aChild = aContext.getAccessibleChild(i);
+
+				if (aChild instanceof Component) {
+					Component cChild = (Component) aChild;
+
+					GComponent gChild = new JFCXComponent(cChild);
+					retList.add(gChild);
+				}
+			}
+		} catch (Exception e) {
+
+		}
+
+		//		
 		// try {
-		// AccessibleContext aContext = aComponent.getAccessibleContext();
 		//
-		// if (aContext == null)
-		// return retList;
+		// if (component instanceof Container) {
+		//				
+		// System.out.println("GOT HERE:" + component .getClass());
+		// AccessibleContext aComp = component.getAccessibleContext();
+		//				
+		// System.out.println("Accessible children:" +
+		// aComp.getAccessibleChildrenCount()) ;
+		// System.out.println("Component children:" + ((Container)
+		// component).getComponents().length) ;
+		//				
+		//				
+		//				
+		// Container comp = (Container) component ;
+		// int nChildren = comp.getComponentCount();
 		//
-		// int nChildren = aContext.getAccessibleChildrenCount();
 		// for (int i = 0; i < nChildren; i++) {
 		//
-		// Accessible aChild = aContext.getAccessibleChild(i);
-		// GComponent gChild = new JFCXComponent(aChild);
+		// Component aChild = comp.getComponent(i);
+		// if (aChild instanceof Accessible) {
+		//
+		// GComponent gChild = new JFCXComponent(
+		// aChild);
 		// retList.add(gChild);
 		// }
-		// } catch (Exception e) {
-		//
 		// }
-		try {
-
-			if (aComponent instanceof Container) {
-				Container comp = (Container) aComponent;
-				int nChildren = comp.getComponentCount();
-
-				for (int i = 0; i < nChildren; i++) {
-
-					Component aChild = comp.getComponent(i);
-					if (aChild instanceof Accessible) {
-
-						GComponent gChild = new JFCXComponent(
-								 aChild);
-						retList.add(gChild);
-					}
-				}
-			} else
-				return retList;
-
-		} catch (Exception e) {
-		}
+		// } else
+		// return retList;
+		//
+		// } catch (Exception e) {
+		// }
 
 		return retList;
 	}
@@ -294,16 +319,16 @@ public class JFCXComponent extends GComponent {
 	 */
 	@Override
 	public GComponent getParent() {
-//		AccessibleContext aContext = this.aComponent.getAccessibleContext();
-//		if (aContext == null)
-//			return null;
-//		Accessible jParent = aContext.getAccessibleParent();
-//
-//		if (jParent == null)
-//			return null;
-		
+		// AccessibleContext aContext = this.aComponent.getAccessibleContext();
+		// if (aContext == null)
+		// return null;
+		// Accessible jParent = aContext.getAccessibleParent();
+		//
+		// if (jParent == null)
+		// return null;
+
 		Component parent = this.component.getParent();
-		
+
 		return new JFCXComponent(parent);
 	}
 
