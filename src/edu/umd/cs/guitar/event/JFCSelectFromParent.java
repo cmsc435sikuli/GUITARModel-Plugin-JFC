@@ -91,11 +91,11 @@ public class JFCSelectFromParent extends JFCEventHandler {
 	 */
 	@Override
 	protected void performImpl(GComponent gComponent) {
-		Accessible aChild = ((JFCXComponent) gComponent).getAComponent();
-		Component cChild = (Component) aChild;
+//		Accessible aChild = ((JFCXComponent) gComponent).getComponent();
+		Component cChild = ((JFCXComponent) gComponent).getComponent();
 
 		// Find the closet parent which is support selection
-		Accessible aParent = getSelectableParent(aChild);
+		Component aParent = getSelectableParent(cChild);
 
 		if (aParent != null) {
 
@@ -134,7 +134,7 @@ public class JFCSelectFromParent extends JFCEventHandler {
 
 		try {
 			List<String> lParameter = (List<String>) parameters;
-			
+
 			if (lParameter == null) {
 				index = 0;
 			} else
@@ -144,20 +144,29 @@ public class JFCSelectFromParent extends JFCEventHandler {
 			e.printStackTrace();
 		}
 
-		Accessible aChild = ((JFCXComponent) gComponent).getAComponent();
+		// Accessible aChild = ((JFCXComponent) gComponent).getAComponent();
 
+		Component component = ((JFCXComponent) gComponent).getComponent();
 		// Find the closet parent which is support selection
-		Accessible aParent = getSelectableParent(aChild);
 
-		if (aParent != null) {
+		// Accessible aParent = getSelectableParent(aChild);
+
+		Component parent = getSelectableParent(component);
+
+		GUITARLog.log.debug("!!!!!Parent:"+ parent);
+		
+		if (parent != null) {
+			
+			System.out.println("GOT HERE");
+			
 			Method selectionMethod;
 
 			try {
 
-				selectionMethod = aParent.getClass().getMethod(
+				selectionMethod = parent.getClass().getMethod(
 						"setSelectedIndex", int.class);
 
-				selectionMethod.invoke(aParent, index);
+				selectionMethod.invoke(parent, index);
 
 			} catch (SecurityException e) {
 				GUITARLog.log.error(e);
@@ -184,27 +193,39 @@ public class JFCSelectFromParent extends JFCEventHandler {
 	 * @param aComponent
 	 * @return Accessible
 	 */
-	private Accessible getSelectableParent(Accessible aComponent) {
-
-		if (aComponent == null)
+	// private Accessible getSelectableParent(Accessible aComponent) {
+	private Component getSelectableParent(Component component) {
+		// if (aComponent == null)
+		if (component == null)
 			return null;
 
-		AccessibleContext aContext = aComponent.getAccessibleContext();
-
-		if (aContext == null)
-			return null;
-
-		Accessible aParent = aContext.getAccessibleParent();
-		if (aParent == null)
-			return null;
-
-		Method[] methods = aParent.getClass().getMethods();
+		Component parent = component.getParent();
+		Method[] methods = parent .getClass().getMethods();
 		for (Method m : methods) {
 			if ("setSelectedComponent".equals(m.getName()))
-				return aParent;
+				return parent;
 		}
 
-		return getSelectableParent(aParent);
+		return getSelectableParent(parent);
+		
+		
+//		AccessibleContext aContext = component.getAccessibleContext();
+//
+//		if (aContext == null)
+//			return null;
+//		
+//		
+//		
+//
+//		Accessible aParent = aContext.getAccessibleParent();
+//		if (aParent == null)
+//			return null;
+//
+//		if (!(aParent instanceof Component))
+//			return null;
+//
+//		
+
 
 	}
 }

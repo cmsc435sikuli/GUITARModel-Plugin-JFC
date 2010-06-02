@@ -19,6 +19,8 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.awt.Component;
+
 import javax.accessibility.Accessible;
 
 import edu.umd.cs.guitar.model.GComponent;
@@ -32,16 +34,21 @@ import edu.umd.cs.guitar.model.JFCXComponent;
  */
 public abstract class JFCEventHandler extends GThreadEvent {
 
-    /**
-     * A helper method to get the real JFC Accessible object from a
-     * <code> GXComponent </code>
-     * 
-     * @param gComponent
-     * @return Accessible
-     */
-    protected Accessible getAccessible(GComponent gComponent) {
-        JFCXComponent jxComponent = (JFCXComponent) gComponent;
-        return jxComponent.getAComponent();
-    }
+	/**
+	 * A helper method to get the real JFC Accessible object from a
+	 * <code> GXComponent </code>
+	 * 
+	 * @param gComponent
+	 * @return Accessible
+	 */
+	// protected Accessible getAccessible(GComponent gComponent) {
+	// JFCXComponent jxComponent = (JFCXComponent) gComponent;
+	// return jxComponent.getAComponent();
+	// }
+
+	protected Component getComponent(GComponent gComponent) {
+		JFCXComponent jxComponent = (JFCXComponent) gComponent;
+		return jxComponent.getComponent();
+	}
 
 }

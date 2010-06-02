@@ -88,12 +88,13 @@ public class JFCSelectionHandler extends JFCEventHandler {
 			return;
 		}
 
-		Accessible aComponent = getAccessible(gComponent);
+		// Accessible aComponent = getAccessible(gComponent);
+		//
+		// if (aComponent == null)
+		// return;
+		Component component = getComponent(gComponent);
 
-		if (aComponent == null)
-			return;
-
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 
 		if (aContext == null)
 			return;
@@ -109,7 +110,7 @@ public class JFCSelectionHandler extends JFCEventHandler {
 			selectionMethod = gComponent.getClass().getMethod(
 					"setSelectedIndex", Component.class);
 
-			Component component = (Component) aComponent;
+			// Component component = (Component) aComponent;
 			selectionMethod.invoke(component, selectedIndex);
 
 		} catch (SecurityException e) {

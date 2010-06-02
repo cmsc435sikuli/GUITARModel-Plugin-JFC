@@ -61,23 +61,24 @@ import edu.umd.cs.guitar.util.GUITARLog;
 public class JFCXComponent extends GComponent {
 
 	Component component;
-	Accessible aComponent;
 
-	/**
-	 * @return the aComponent
-	 */
-	public Accessible getAComponent() {
-		return aComponent;
-	}
+	// Accessible aComponent;
 
-	/**
-	 * @param aComponent
-	 */
-	public JFCXComponent(Accessible aComponent) {
-		super();
-		this.aComponent = aComponent;
-		this.component = (Component) aComponent;
-	}
+	// /**
+	// * @return the aComponent
+	// */
+	// public Accessible getAComponent() {
+	// return aComponent;
+	// }
+
+	// /**
+	// * @param aComponent
+	// */
+	// public JFCXComponent(Accessible aComponent) {
+	// super();
+	// this.aComponent = aComponent;
+	// this.component = (Component) aComponent;
+	// }
 
 	/**
 	 * @param component
@@ -85,7 +86,7 @@ public class JFCXComponent extends GComponent {
 	public JFCXComponent(Component component) {
 		super();
 		this.component = component;
-		this.aComponent = (Accessible) component;
+		// this.aComponent = (Accessible) component;
 	}
 
 	/*
@@ -159,7 +160,8 @@ public class JFCXComponent extends GComponent {
 	 */
 	private Integer getIndexInParent() {
 
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		// AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 		if (aContext != null) {
 			return aContext.getAccessibleIndexInParent();
 		}
@@ -173,15 +175,15 @@ public class JFCXComponent extends GComponent {
 	 * @return
 	 */
 	private boolean isSelectedByParent() {
-		if (aComponent instanceof Component) {
-			Container parent = ((Component) this.aComponent).getParent();
+		// if (aComponent instanceof Component) {
+		Container parent = ((Component) this.component).getParent();
 
-			if (parent == null)
-				return false;
+		if (parent == null)
+			return false;
 
-			if (parent instanceof JTabbedPane)
-				return true;
-		}
+		if (parent instanceof JTabbedPane)
+			return true;
+		// }
 		return false;
 	}
 
@@ -192,7 +194,7 @@ public class JFCXComponent extends GComponent {
 	 */
 	private List<PropertyType> getGUIBeanProperties() {
 		List<PropertyType> retList = new ArrayList<PropertyType>();
-		Method[] methods = aComponent.getClass().getMethods();
+		Method[] methods = component.getClass().getMethods();
 		PropertyType p;
 		List<String> lPropertyValue;
 
@@ -217,7 +219,8 @@ public class JFCXComponent extends GComponent {
 
 				Object value;
 				try {
-					value = m.invoke(aComponent, new Object[0]);
+					// value = m.invoke(aComponent, new Object[0]);
+					value = m.invoke(component, new Object[0]);
 					if (value != null) {
 						p = factory.createPropertyType();
 						lPropertyValue = new ArrayList<String>();
@@ -244,38 +247,54 @@ public class JFCXComponent extends GComponent {
 	public List<GComponent> getChildren() {
 
 		GUITARLog.log.debug("ENTERING getChildren...");
-
-		if (component instanceof Container)
-			GUITARLog.log.debug("\t Component Chidren: "
-					+ ((Container) component).getComponentCount());
-
 		List<GComponent> retList = new ArrayList<GComponent>();
 
-		try {
-			AccessibleContext aContext = component.getAccessibleContext();
+		if (component instanceof Container) {
 
-			if (aContext == null)
-				return retList;
-			int nChildren = aContext.getAccessibleChildrenCount();
+			Container container = (Container) component;
 
-			GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
+			GUITARLog.log.debug("\t Component Chidren: "
+					+ container.getComponentCount());
 
-			for (int i = 0; i < nChildren; i++) {
+			try {
+				AccessibleContext aContext = container.getAccessibleContext();
 
-				Accessible aChild = aContext.getAccessibleChild(i);
+				if (aContext == null)
+					return retList;
+				int nChildren = aContext.getAccessibleChildrenCount();
 
-				if (aChild instanceof Component) {
-					Component cChild = (Component) aChild;
+				GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
 
-					GComponent gChild = new JFCXComponent(cChild);
-					retList.add(gChild);
+				// Check accessible children first
+				if (nChildren > 0) {
+					for (int i = 0; i < nChildren; i++) {
+
+						Accessible aChild = aContext.getAccessibleChild(i);
+
+						if (aChild instanceof Component) {
+							Component cChild = (Component) aChild;
+
+							GComponent gChild = new JFCXComponent(cChild);
+							retList.add(gChild);
+						}
+					}
+
+					// Then try to search for component level in addition to
+					// accessibility level
+				} else {
+					nChildren = container.getComponentCount();
+					for (int i = 0; i < nChildren; i++) {
+						Component cChild = container.getComponent(i);
+						GComponent gChild = new JFCXComponent(cChild);
+						retList.add(gChild);
+					}
 				}
+
+			} catch (Exception e) {
+				GUITARLog.log.error("getChildren");
+				GUITARLog.log.error(e);
 			}
-		} catch (Exception e) {
-
 		}
-
-		//		
 		// try {
 		//
 		// if (component instanceof Container) {
@@ -339,13 +358,27 @@ public class JFCXComponent extends GComponent {
 	 */
 	@Override
 	public boolean hasChildren() {
-		AccessibleContext xContext = aComponent.getAccessibleContext();
+		// AccessibleContext xContext = aComponent.getAccessibleContext();
+		AccessibleContext xContext = component.getAccessibleContext();
 
 		if (xContext == null)
 			return false;
 
+		// TODO: Check tthis
 		int nChildren = xContext.getAccessibleChildrenCount();
-		return (nChildren > 0);
+
+		if (nChildren > 0)
+			return true;
+
+		if (component instanceof Container) {
+			Container container = (Container) component;
+
+			if (container.getComponentCount() > 0)
+				return true;
+
+		}
+
+		return false;
 	}
 
 	// /*
@@ -365,6 +398,13 @@ public class JFCXComponent extends GComponent {
 	//
 	// return retID;
 	// }
+
+	/**
+	 * @return the component
+	 */
+	public Component getComponent() {
+		return component;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -422,10 +462,10 @@ public class JFCXComponent extends GComponent {
 		if (getClass() != obj.getClass())
 			return false;
 		JFCXComponent other = (JFCXComponent) obj;
-		if (aComponent == null) {
-			if (other.aComponent != null)
+		if (component == null) {
+			if (other.component != null)
 				return false;
-		} else if (!aComponent.equals(other.aComponent))
+		} else if (!component.equals(other.component))
 			return false;
 		return true;
 	}
@@ -439,9 +479,9 @@ public class JFCXComponent extends GComponent {
 	public String getTitle() {
 
 		String sName = "";
-		if (aComponent == null)
+		if (component == null)
 			return "";
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 
 		if (aContext == null)
 			return "";
@@ -457,16 +497,16 @@ public class JFCXComponent extends GComponent {
 		if (sName != null)
 			return sName;
 
-		if (aComponent instanceof Component) {
-			Component comp = (Component) aComponent;
-			sName = comp.getName();
+		// if (aComponent instanceof Component) {
+		// Component comp = (Component) aComponent;
+		sName = component.getName();
 
-			// In the worst case we must use the screen position to
-			// identify the widget
-			if (sName == null) {
-				sName = "Pos(" + comp.getX() + "," + comp.getY() + ")";
-			}
+		// In the worst case we must use the screen position to
+		// identify the widget
+		if (sName == null) {
+			sName = "Pos(" + component.getX() + "," + component.getY() + ")";
 		}
+		// }
 		return sName;
 	}
 
@@ -482,7 +522,7 @@ public class JFCXComponent extends GComponent {
 		String retIcon = null;
 		try {
 			Class<?> partypes[] = new Class[0];
-			Method m = aComponent.getClass().getMethod("getIcon", partypes);
+			Method m = component.getClass().getMethod("getIcon", partypes);
 
 			String sIconPath = null;
 			// if (m != null) {
@@ -492,7 +532,7 @@ public class JFCXComponent extends GComponent {
 			// }
 
 			if (m != null) {
-				Object obj = (m.invoke(aComponent, new Object[0]));
+				Object obj = (m.invoke(component, new Object[0]));
 
 				if (obj != null) {
 					sIconPath = obj.toString();
@@ -534,7 +574,7 @@ public class JFCXComponent extends GComponent {
 		List<GEvent> retEvents = new ArrayList<GEvent>();
 		// List<String> retEvents = new ArrayList<String>();
 
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 
 		if (aContext == null)
 			return retEvents;
@@ -579,7 +619,7 @@ public class JFCXComponent extends GComponent {
 		// AccessibleContext aContext = aComponent.getAccessibleContext();
 		// String role = aContext.getAccessibleRole().toString();
 		// return role;
-		return aComponent.getClass().getName();
+		return component.getClass().getName();
 
 	}
 
@@ -614,7 +654,7 @@ public class JFCXComponent extends GComponent {
 	@Override
 	public boolean isTerminal() {
 
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 
 		if (aContext == null)
 			return false;
@@ -653,8 +693,8 @@ public class JFCXComponent extends GComponent {
 
 		try {
 			Class[] types = new Class[] {};
-			Method method = aComponent.getClass().getMethod("isEnabled", types);
-			Object result = method.invoke(aComponent, new Object[0]);
+			Method method = component.getClass().getMethod("isEnabled", types);
+			Object result = method.invoke(component, new Object[0]);
 
 			if (result instanceof Boolean)
 				return (Boolean) result;
@@ -675,8 +715,8 @@ public class JFCXComponent extends GComponent {
 	 */
 	public boolean isActivatedByParent() {
 
-		if (aComponent instanceof Component) {
-			Container parent = ((Component) aComponent).getParent();
+		if (component instanceof Component) {
+			Container parent = ((Component) component).getParent();
 			if (parent instanceof JTabbedPane) {
 				return true;
 			}
@@ -693,7 +733,7 @@ public class JFCXComponent extends GComponent {
 
 		try {
 			robot = new Robot();
-			Component comp = (Component) this.aComponent;
+			Component comp = (Component) this.component;
 
 			Point pos = comp.getLocationOnScreen();
 			Dimension dim = comp.getSize();

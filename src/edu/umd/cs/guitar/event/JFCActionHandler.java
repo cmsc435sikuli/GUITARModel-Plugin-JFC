@@ -19,6 +19,8 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.awt.Component;
+
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleAction;
 import javax.accessibility.AccessibleContext;
@@ -40,20 +42,20 @@ public class JFCActionHandler extends JFCEventHandler {
 
 	@Override
 	public void performImpl(GComponent gComponent) {
-		
-//		GUITARLog.log.debug("Waiting  2000ms for a new window to open");
-//		new QueueTool().waitEmpty(2000);
+
+		// GUITARLog.log.debug("Waiting  2000ms for a new window to open");
+		// new QueueTool().waitEmpty(2000);
 
 		if (gComponent == null) {
 			return;
 		}
+		// Accessible aComponent = getAccessible(gComponent);
+		//
+		// if (aComponent == null)
+		// return;
+		Component component = getComponent(gComponent);
 
-		Accessible aComponent = getAccessible(gComponent);
-
-		if (aComponent == null)
-			return;
-
-		AccessibleContext aContext = aComponent.getAccessibleContext();
+		AccessibleContext aContext = component .getAccessibleContext();
 
 		if (aContext == null)
 			return;

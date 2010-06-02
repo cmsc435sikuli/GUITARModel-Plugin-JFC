@@ -19,6 +19,7 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,21 +42,21 @@ public class JFCEditableTextHandler extends JFCEventHandler {
      * 
      */
 	public JFCEditableTextHandler() {
-//		for(int i =0;i<255*255;i++)
-//			GUITAR_DEFAULT_TEXT += Character.toString((char)(i));
+		// for(int i =0;i<255*255;i++)
+		// GUITAR_DEFAULT_TEXT += Character.toString((char)(i));
 	}
 
 	/**
      * 
      */
-	private static String GUITAR_DEFAULT_TEXT = "GUITAR DEFAULT TEXT: "  
-	+"!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-	+"¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ"
-	+"ÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃ"
-	+"ǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰ"
-	+"ǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏɐɑɒɓɔɕɖɗɘəɚɛɜɝɞɟɠɡɢɣɤɥɦɧɨɩɪɫɬɭɮɯɰɱɲɳɴɵɶɷɸɹɺɻɼɽɾɿʀʁʂʃʄʅʆʇʈʉʊʋʌʍʎʏʐʑʒʓʔʕʖʗʘʙʚʛʜʝʞʟʠʡʢʣʤʥʦʧʨʩʪʫʬʭʮʯʰʱʲʳʴʵʶʷʸʹ"
-	;
-	//";
+	private static String GUITAR_DEFAULT_TEXT = "GUITAR DEFAULT TEXT: "
+			+ "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+			+ "¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ"
+			+ "ÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃ"
+			+ "ǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰ"
+			+ "ǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏɐɑɒɓɔɕɖɗɘəɚɛɜɝɞɟɠɡɢɣɤɥɦɧɨɩɪɫɬɭɮɯɰɱɲɳɴɵɶɷɸɹɺɻɼɽɾɿʀʁʂʃʄʅʆʇʈʉʊʋʌʍʎʏʐʑʒʓʔʕʖʗʘʙʚʛʜʝʞʟʠʡʢʣʤʥʦʧʨʩʪʫʬʭʮʯʰʱʲʳʴʵʶʷʸʹ";
+
+	// ";
 
 	@Override
 	public void performImpl(GComponent gComponent) {
@@ -75,8 +76,6 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void performImpl(GComponent gComponent, Object parameters) {
-		
-		
 
 		if (gComponent == null) {
 			return;
@@ -92,13 +91,15 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 				sInputText = (lParameter.size() != 0) ? lParameter.get(0)
 						: GUITAR_DEFAULT_TEXT;
 
-			Accessible aComponent = getAccessible(gComponent);
-			AccessibleContext aContext = aComponent.getAccessibleContext();
+			// Accessible aComponent = getAccessible(gComponent);
+
+			// AccessibleContext aContext = aComponent.getAccessibleContext();
+			Component component = getComponent(gComponent);
+
+			AccessibleContext aContext = component.getAccessibleContext();
 			AccessibleEditableText aTextEvent = aContext
-		
+
 			.getAccessibleEditableText();
-			
-					
 
 			if (aTextEvent == null) {
 				System.err.println(this.getClass().getName()
@@ -109,12 +110,12 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 				aTextEvent.setTextContents(sInputText);
 			} catch (Exception e) {
 				try {
-					Method setText = aComponent.getClass().getMethod("setText",
+					Method setText = component.getClass().getMethod("setText",
 							String.class);
-					setText.invoke(aComponent, sInputText);
+					setText.invoke(component, sInputText);
 
-					Debugger.pause(GUITAR_DEFAULT_TEXT);	
-					
+					Debugger.pause(GUITAR_DEFAULT_TEXT);
+
 				} catch (SecurityException e1) {
 					// TODO Auto-generated catch block
 					GUITARLog.log.error(e1);
