@@ -32,7 +32,7 @@ import edu.umd.cs.guitar.model.JFCXComponent;
 /**
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao Nguyen </a>
  */
-public class JFCActionHandlerNoThread implements GEvent {
+public class JFCActionEDT implements GEvent {
 
 	/**
 	 * A helper method to get the real JFC Accessible object from a
@@ -53,7 +53,7 @@ public class JFCActionHandlerNoThread implements GEvent {
 	/**
      * 
      */
-	public JFCActionHandlerNoThread() {
+	public JFCActionEDT() {
 		// TODO Auto-generated constructor stub
 	}
 
