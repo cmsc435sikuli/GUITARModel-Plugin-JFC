@@ -574,8 +574,6 @@ public class JFCXComponent extends GComponent {
 	@Override
 	public List<GEvent> getEventList() {
 		List<GEvent> retEvents = new ArrayList<GEvent>();
-		// List<String> retEvents = new ArrayList<String>();
-
 		EventManager em = EventManager.getInstance();
 		
 		for(Class<? extends GEvent > event : em.getEvents()){

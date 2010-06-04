@@ -121,11 +121,15 @@ public class JFCConstants {
 	public static List<String> ID_PROPERTIES = Arrays.asList("Title", "Class",
 			"Icon", "Index");
 
-	
-	public static List<Class<? extends JFCEventHandler>> SUPPORTED_EVENTS= Arrays.asList(JFCActionHandler.class,
-			JFCEditableTextHandler.class, JFCSelectFromParent.class,JFCValueHandler.class,JFCSelectionHandler.class);
+	public static List<Class<? extends JFCEventHandler>> DEFAULT_SUPPORTED_EVENTS = Arrays
+			.asList(JFCActionHandler.class, JFCEditableTextHandler.class,
+					JFCSelectFromParent.class, JFCValueHandler.class,
+					JFCSelectionHandler.class);
+//	public static List<Class<? extends JFCEventHandler>> DEFAULT_SUPPORTED_EVENTS = Arrays
+//	.asList(
+//			JFCSelectFromParent.class, JFCValueHandler.class,
+//			JFCSelectionHandler.class);
 
-	
 	/**
 	 * JFC specific tags
 	 * 
