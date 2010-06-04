@@ -19,7 +19,12 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.awt.Component;
+
+import javax.accessibility.AccessibleContext;
+
 import edu.umd.cs.guitar.model.GComponent;
+import edu.umd.cs.guitar.model.JFCXComponent;
 
 /**
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao Nguyen </a>
@@ -50,5 +55,33 @@ public class JFCValueHandler extends JFCEventHandler {
         // TODO Auto-generated method stub
         
     }
+
+	/* (non-Javadoc)
+	 * @see edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.GComponent)
+	 */
+	@Override
+	public boolean isSupportedBy(GComponent gComponent) {
+		
+		GEvent gFilterEvent;
+		gFilterEvent= new JFCActionHandler();
+		if (gFilterEvent.isSupportedBy(gComponent))
+			return false;
+		
+		if (!(gComponent instanceof JFCXComponent))
+			return false;
+		JFCXComponent jComponent = (JFCXComponent) gComponent;
+		Component component = jComponent.getComponent();
+		AccessibleContext aContext = component.getAccessibleContext();
+
+		if (aContext==null)
+			return false;
+		
+		Object event;
+		event = aContext.getAccessibleValue();
+		if (event != null)
+			return true;
+
+		return false;
+	}
 
 }

@@ -27,6 +27,7 @@ import javax.accessibility.AccessibleContext;
 import javax.swing.SwingUtilities;
 
 import edu.umd.cs.guitar.model.GComponent;
+import edu.umd.cs.guitar.model.JFCXComponent;
 
 /**
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao Nguyen </a>
@@ -55,7 +56,7 @@ public class JFCActionHandler extends JFCEventHandler {
 		// return;
 		Component component = getComponent(gComponent);
 
-		AccessibleContext aContext = component .getAccessibleContext();
+		AccessibleContext aContext = component.getAccessibleContext();
 
 		if (aContext == null)
 			return;
@@ -93,5 +94,38 @@ public class JFCActionHandler extends JFCEventHandler {
 	@Override
 	protected void performImpl(GComponent gComponent, Object parameters) {
 		performImpl(gComponent);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.
+	 * GComponent)
+	 */
+	@Override
+	public boolean isSupportedBy(GComponent gComponent) {
+
+		GEvent gFilterEvent;
+		gFilterEvent= new JFCEditableTextHandler();
+		if (gFilterEvent.isSupportedBy(gComponent))
+			return false;
+		
+		if (!(gComponent instanceof JFCXComponent))
+			return false;
+		JFCXComponent jComponent = (JFCXComponent) gComponent;
+		Component component = jComponent.getComponent();
+		AccessibleContext aContext = component.getAccessibleContext();
+
+		if (aContext == null)
+			return false;
+
+		Object event;
+		// Action
+		event = aContext.getAccessibleAction();
+		if (event != null)
+			return true;
+
+		return false;
 	}
 }

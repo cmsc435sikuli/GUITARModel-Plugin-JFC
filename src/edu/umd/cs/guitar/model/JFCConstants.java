@@ -25,6 +25,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.umd.cs.guitar.event.GEvent;
+import edu.umd.cs.guitar.event.JFCActionHandler;
+import edu.umd.cs.guitar.event.JFCEditableTextHandler;
+import edu.umd.cs.guitar.event.JFCEventHandler;
+import edu.umd.cs.guitar.event.JFCSelectFromParent;
+import edu.umd.cs.guitar.event.JFCSelectionHandler;
+import edu.umd.cs.guitar.event.JFCValueHandler;
 import edu.umd.cs.guitar.model.wrapper.AttributesTypeWrapper;
 
 /**
@@ -114,6 +121,11 @@ public class JFCConstants {
 	public static List<String> ID_PROPERTIES = Arrays.asList("Title", "Class",
 			"Icon", "Index");
 
+	
+	public static List<Class<? extends JFCEventHandler>> SUPPORTED_EVENTS= Arrays.asList(JFCActionHandler.class,
+			JFCEditableTextHandler.class, JFCSelectFromParent.class,JFCValueHandler.class,JFCSelectionHandler.class);
+
+	
 	/**
 	 * JFC specific tags
 	 * 

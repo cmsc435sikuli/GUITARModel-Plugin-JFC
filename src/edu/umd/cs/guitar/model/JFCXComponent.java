@@ -29,6 +29,7 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
+import edu.umd.cs.guitar.event.EventManager;
 import edu.umd.cs.guitar.event.GEvent;
 import edu.umd.cs.guitar.event.JFCActionHandler;
 import edu.umd.cs.guitar.event.JFCEditableTextHandler;
@@ -574,36 +576,72 @@ public class JFCXComponent extends GComponent {
 		List<GEvent> retEvents = new ArrayList<GEvent>();
 		// List<String> retEvents = new ArrayList<String>();
 
-		AccessibleContext aContext = component.getAccessibleContext();
-
-		if (aContext == null)
-			return retEvents;
-
-		Object event;
-
-		// Text
-		event = aContext.getAccessibleEditableText();
-		if (event != null) {
-			retEvents.add(new JFCEditableTextHandler());
-			return retEvents;
+		EventManager em = EventManager.getInstance();
+		
+		for(Class<? extends GEvent > event : em.getEvents()){
+			Constructor<? extends GEvent > constructor;
+			try {
+				
+				constructor = event.getConstructor(new Class[]{});
+				Object obj = constructor.newInstance();
+				if (obj instanceof GEvent){
+					GEvent gEvent = (GEvent)obj;
+					if (gEvent.isSupportedBy(this))
+						retEvents.add(gEvent);
+				}
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		
+		
+//		AccessibleContext aContext = component.getAccessibleContext();
+//
+//		if (aContext == null)
+//			return retEvents;
+//
+//		Object event;
+//
+//		// Text
+//		event = aContext.getAccessibleEditableText();
+//		if (event != null) {
+//			retEvents.add(new JFCEditableTextHandler());
+//			return retEvents;
+//		}
 
-		// Action
-		event = aContext.getAccessibleAction();
-		if (event != null) {
-			retEvents.add(new JFCActionHandler());
-			return retEvents;
-		}
+//		// Action
+//		event = aContext.getAccessibleAction();
+//		if (event != null) {
+//			retEvents.add(new JFCActionHandler());
+//			return retEvents;
+//		}
 
 		// Selection
-		event = aContext.getAccessibleSelection();
-		if (event != null)
-			retEvents.add(new JFCSelectionHandler());
+//		event = aContext.getAccessibleSelection();
+//		if (event != null)
+//			retEvents.add(new JFCSelectionHandler());
 
-		// Value
-		event = aContext.getAccessibleValue();
-		if (event != null)
-			retEvents.add(new JFCValueHandler());
+//		// Value
+//		event = aContext.getAccessibleValue();
+//		if (event != null)
+//			retEvents.add(new JFCValueHandler());
 
 		return retEvents;
 	}

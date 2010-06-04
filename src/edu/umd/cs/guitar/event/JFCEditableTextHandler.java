@@ -30,6 +30,7 @@ import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleEditableText;
 
 import edu.umd.cs.guitar.model.GComponent;
+import edu.umd.cs.guitar.model.JFCXComponent;
 import edu.umd.cs.guitar.util.Debugger;
 import edu.umd.cs.guitar.util.GUITARLog;
 
@@ -134,6 +135,30 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 			}
 
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.GComponent)
+	 */
+	@Override
+	public boolean isSupportedBy(GComponent gComponent) {
+		if (!(gComponent instanceof JFCXComponent))
+			return false;
+		JFCXComponent jComponent = (JFCXComponent) gComponent;
+		Component component = jComponent.getComponent();
+		AccessibleContext aContext = component.getAccessibleContext();
+		
+		if (aContext == null)
+			return false;
+
+		Object event;
+
+		// Text
+		event = aContext.getAccessibleEditableText();
+		if (event != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

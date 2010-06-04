@@ -30,6 +30,7 @@ import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleSelection;
 
 import edu.umd.cs.guitar.model.GComponent;
+import edu.umd.cs.guitar.model.JFCXComponent;
 import edu.umd.cs.guitar.util.GUITARLog;
 
 /**
@@ -126,5 +127,32 @@ public class JFCSelectionHandler extends JFCEventHandler {
 		}
 
 		// aSelection.
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.GComponent)
+	 */
+	@Override
+	public boolean isSupportedBy(GComponent gComponent) {
+		
+		
+		if (!(gComponent instanceof JFCXComponent))
+			return false;
+		GEvent gFilterEvent;
+		gFilterEvent= new JFCActionHandler();
+		if (gFilterEvent.isSupportedBy(gComponent))
+			return false;
+		
+		JFCXComponent jComponent = (JFCXComponent) gComponent;
+		Component component = jComponent.getComponent();
+		AccessibleContext aContext = component.getAccessibleContext();
+		if (aContext==null)
+			return false;
+		
+		Object event = aContext.getAccessibleSelection();
+		if (event != null)
+			return true;
+		
+		return false;
 	}
 }
