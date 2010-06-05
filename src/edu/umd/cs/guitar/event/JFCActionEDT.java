@@ -111,13 +111,29 @@ public class JFCActionEDT implements GEvent {
 		perform(gComponent);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.GComponent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.
+	 * GComponent)
 	 */
 	@Override
 	public boolean isSupportedBy(GComponent gComponent) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see
+//	 * edu.umd.cs.guitar.event.GEvent#perform(edu.umd.cs.guitar.model.GComponent
+//	 * , java.lang.Object, java.lang.Object)
+//	 */
+//	@Override
+//	public void perform(GComponent gComponent, Object parameters,
+//			Object optionalData) {
+//	}
 
 }
