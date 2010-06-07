@@ -249,9 +249,9 @@ public class JFCXComponent extends GComponent {
 	public List<GComponent> getChildren() {
 		
 
-		GUITARLog.log.debug(component.getClass().getName());
+//		GUITARLog.log.debug(component.getClass().getName());
 		
-		GUITARLog.log.debug("ENTERING getChildren...");
+//		GUITARLog.log.debug("ENTERING getChildren...");
 		List<GComponent> retList = new ArrayList<GComponent>();
 
 		
@@ -260,9 +260,9 @@ public class JFCXComponent extends GComponent {
 		if (component instanceof Container) {
 
 			Container container = (Container) component;
-
-			GUITARLog.log.debug("\t Component Chidren: "
-					+ container.getComponentCount());
+//
+//			GUITARLog.log.debug("\t Component Chidren: "
+//					+ container.getComponentCount());
 
 			try {
 				AccessibleContext aContext = container.getAccessibleContext();
@@ -271,12 +271,12 @@ public class JFCXComponent extends GComponent {
 					return retList;
 				int nChildren = aContext.getAccessibleChildrenCount();
 
-				GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
-				for(int i = 0; i < nChildren; i ++){
-					Accessible childAccessible = aContext.getAccessibleChild(i);
-					GUITARLog.log.debug("\t\t Accessible Name:" + childAccessible.getAccessibleContext().getAccessibleName());
-					GUITARLog.log.debug("\t\t Accessible Class:" + childAccessible.getClass().getName());
-				}
+//				GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
+//				for(int i = 0; i < nChildren; i ++){
+//					Accessible childAccessible = aContext.getAccessibleChild(i);
+//					GUITARLog.log.debug("\t\t Accessible Name:" + childAccessible.getAccessibleContext().getAccessibleName());
+//					GUITARLog.log.debug("\t\t Accessible Class:" + childAccessible.getClass().getName());
+//				}
 				
 				
 
