@@ -20,6 +20,8 @@
 package edu.umd.cs.guitar.event;
 
 import java.awt.Component;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleAction;
@@ -58,7 +60,7 @@ public class JFCActionEDT implements GEvent {
 	}
 
 	@Override
-	public void perform(GComponent gComponent) {
+	public void perform(GComponent gComponent, Hashtable<String, List<String>> optionalData) {
 
 		if (gComponent == null) {
 			return;
@@ -107,8 +109,8 @@ public class JFCActionEDT implements GEvent {
 	 * .model.GXComponent, java.lang.Object)
 	 */
 	@Override
-	public void perform(GComponent gComponent, Object parameters) {
-		perform(gComponent);
+	public void perform(GComponent gComponent, Object parameters, Hashtable<String, List<String>> optionalData) {
+		perform(gComponent,optionalData);
 	}
 
 	/*

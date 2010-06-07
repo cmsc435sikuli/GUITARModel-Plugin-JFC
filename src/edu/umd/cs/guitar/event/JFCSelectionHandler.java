@@ -22,6 +22,7 @@ package edu.umd.cs.guitar.event;
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.accessibility.Accessible;
@@ -55,7 +56,7 @@ public class JFCSelectionHandler extends JFCEventHandler {
 	 * .model.GXComponent)
 	 */
 	@Override
-	protected void performImpl(GComponent component) {
+	protected void performImpl(GComponent component,Hashtable<String, List<String>> optionalData) {
 		// TODO Auto-generated method stub
 
 	}
@@ -68,7 +69,7 @@ public class JFCSelectionHandler extends JFCEventHandler {
 	 * .model.GXComponent, java.lang.Object)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent, Object parameters) {
+	protected void performImpl(GComponent gComponent, Object parameters,Hashtable<String, List<String>> optionalData) {
 
 		if (parameters instanceof List<?>) {
 			List<String> lParameter = (List<String>) parameters;

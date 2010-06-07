@@ -20,6 +20,8 @@
 package edu.umd.cs.guitar.event;
 
 import java.awt.Component;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleAction;
@@ -42,7 +44,7 @@ public class JFCActionHandler extends JFCEventHandler {
 	}
 
 	@Override
-	public void performImpl(GComponent gComponent) {
+	public void performImpl(GComponent gComponent,Hashtable<String, List<String>> optionalData) {
 
 		// GUITARLog.log.debug("Waiting  2000ms for a new window to open");
 		// new QueueTool().waitEmpty(2000);
@@ -92,8 +94,8 @@ public class JFCActionHandler extends JFCEventHandler {
 	 * .model.GXComponent, java.lang.Object)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent, Object parameters) {
-		performImpl(gComponent);
+	protected void performImpl(GComponent gComponent, Object parameters,Hashtable<String, List<String>> optionalData) {
+		performImpl(gComponent,optionalData);
 	}
 
 	/*

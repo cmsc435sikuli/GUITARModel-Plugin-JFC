@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.accessibility.Accessible;
@@ -60,11 +61,11 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 	// ";
 
 	@Override
-	public void performImpl(GComponent gComponent) {
+	public void performImpl(GComponent gComponent,Hashtable<String, List<String>> optionalData) {
 
 		List<String> args = new ArrayList<String>();
 		args.add(GUITAR_DEFAULT_TEXT);
-		performImpl(gComponent, args);
+		performImpl(gComponent, args,optionalData);
 	}
 
 	/*
@@ -76,7 +77,7 @@ public class JFCEditableTextHandler extends JFCEventHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void performImpl(GComponent gComponent, Object parameters) {
+	protected void performImpl(GComponent gComponent, Object parameters,Hashtable<String, List<String>> optionalData) {
 
 		if (gComponent == null) {
 			return;

@@ -22,6 +22,7 @@ package edu.umd.cs.guitar.event;
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.accessibility.Accessible;
@@ -90,7 +91,7 @@ public class JFCSelectFromParent extends JFCEventHandler {
 	 * .guitar.model.GXComponent)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent) {
+	protected void performImpl(GComponent gComponent,Hashtable<String, List<String>> optionalData) {
 //		Accessible aChild = ((JFCXComponent) gComponent).getComponent();
 		Component cChild = ((JFCXComponent) gComponent).getComponent();
 
@@ -128,7 +129,7 @@ public class JFCSelectFromParent extends JFCEventHandler {
 	 * .guitar.model.GXComponent, java.lang.Object)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent, Object parameters) {
+	protected void performImpl(GComponent gComponent, Object parameters,Hashtable<String, List<String>> optionalData) {
 
 		Integer index = 0;
 

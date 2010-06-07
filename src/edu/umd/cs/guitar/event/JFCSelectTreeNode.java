@@ -19,40 +19,57 @@
  */
 package edu.umd.cs.guitar.event;
 
+import java.util.Hashtable;
+import java.util.List;
+
 import edu.umd.cs.guitar.model.GComponent;
 
 /**
- * @author  <a href="mailto:baonn@cs.umd.edu"> Bao N. Nguyen </a>
- *
+ * @author <a href="mailto:baonn@cs.umd.edu"> Bao N. Nguyen </a>
+ * 
  */
-public class JFCSelectTreeRow extends JFCEventHandler {
+public class JFCSelectTreeNode extends JFCEventHandler {
 
 	/**
 	 * 
 	 */
-	public JFCSelectTreeRow() {
+	public JFCSelectTreeNode() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.umd.cs.guitar.event.GThreadEvent#performImpl(edu.umd.cs.guitar.model.GComponent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.GThreadEvent#performImpl(edu.umd.cs.guitar.model
+	 * .GComponent)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent) {
+	protected void performImpl(GComponent gComponent,
+			Hashtable<String, List<String>> optionalData) {
 		GComponent parent = gComponent.getParent();
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.umd.cs.guitar.event.GThreadEvent#performImpl(edu.umd.cs.guitar.model.GComponent, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.GThreadEvent#performImpl(edu.umd.cs.guitar.model
+	 * .GComponent, java.lang.Object)
 	 */
 	@Override
-	protected void performImpl(GComponent gComponent, Object parameters) {
-		performImpl(gComponent);
+	protected void performImpl(GComponent gComponent, Object parameters,
+			Hashtable<String, List<String>> optionalData) {
+		performImpl(gComponent,optionalData);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.GComponent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.umd.cs.guitar.event.GEvent#isSupportedBy(edu.umd.cs.guitar.model.
+	 * GComponent)
 	 */
 	@Override
 	public boolean isSupportedBy(GComponent gComponent) {
