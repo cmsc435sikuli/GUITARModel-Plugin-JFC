@@ -61,9 +61,6 @@ public class JFCSelectTreeNode extends JFCEventHandler {
 	protected void performImpl(GComponent gComponent,
 			Hashtable<String, List<String>> optionalData) {
 		
-		GUITARLog.log.debug("PERFOMRMING");
-		
-
 		if (!(gComponent instanceof JFCXComponent)){
 		
 			GUITARLog.log.debug("JFCXComponent! ");
@@ -92,13 +89,10 @@ public class JFCSelectTreeNode extends JFCEventHandler {
 			return;	
 		}
 		
-		
 		String node = nodes.get(0);
 		expandAll(tree, true);
+//		new EventTool().waitNoEvent(1000);
 
-		//new EventTool().waitNoEvent(1000);
-
-		GUITARLog.log.debug("GOT HERE");
 		TreePath path = tree.getNextMatch(node, 0, Position.Bias.Forward);
 		
 		
