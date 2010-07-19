@@ -120,7 +120,7 @@ public class JFCXWindow extends GWindow {
 	 */
 	@Override
 	public GComponent getContainer() {
-		return new JFCXComponent((Component)window);
+		return new JFCXComponent((Component) window, this);
 	}
 
 	/*

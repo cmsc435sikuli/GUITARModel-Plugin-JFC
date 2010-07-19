@@ -85,8 +85,10 @@ public class JFCXComponent extends GComponent {
 	/**
 	 * @param component
 	 */
-	public JFCXComponent(Component component) {
-		super();
+	public JFCXComponent(Component component, GWindow window) {
+
+		super(window);
+
 		this.component = component;
 		// this.aComponent = (Accessible) component;
 	}
@@ -247,22 +249,18 @@ public class JFCXComponent extends GComponent {
 	 */
 	@Override
 	public List<GComponent> getChildren() {
-		
 
-//		GUITARLog.log.debug(component.getClass().getName());
-		
-//		GUITARLog.log.debug("ENTERING getChildren...");
+		// GUITARLog.log.debug(component.getClass().getName());
+
+		// GUITARLog.log.debug("ENTERING getChildren...");
 		List<GComponent> retList = new ArrayList<GComponent>();
 
-		
-		
-		
 		if (component instanceof Container) {
 
 			Container container = (Container) component;
-//
-//			GUITARLog.log.debug("\t Component Chidren: "
-//					+ container.getComponentCount());
+			//
+			// GUITARLog.log.debug("\t Component Chidren: "
+			// + container.getComponentCount());
 
 			try {
 				AccessibleContext aContext = container.getAccessibleContext();
@@ -271,14 +269,14 @@ public class JFCXComponent extends GComponent {
 					return retList;
 				int nChildren = aContext.getAccessibleChildrenCount();
 
-//				GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
-//				for(int i = 0; i < nChildren; i ++){
-//					Accessible childAccessible = aContext.getAccessibleChild(i);
-//					GUITARLog.log.debug("\t\t Accessible Name:" + childAccessible.getAccessibleContext().getAccessibleName());
-//					GUITARLog.log.debug("\t\t Accessible Class:" + childAccessible.getClass().getName());
-//				}
-				
-				
+				// GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
+				// for(int i = 0; i < nChildren; i ++){
+				// Accessible childAccessible = aContext.getAccessibleChild(i);
+				// GUITARLog.log.debug("\t\t Accessible Name:" +
+				// childAccessible.getAccessibleContext().getAccessibleName());
+				// GUITARLog.log.debug("\t\t Accessible Class:" +
+				// childAccessible.getClass().getName());
+				// }
 
 				// Check accessible children first
 				if (nChildren > 0) {
@@ -289,7 +287,8 @@ public class JFCXComponent extends GComponent {
 						if (aChild instanceof Component) {
 							Component cChild = (Component) aChild;
 
-							GComponent gChild = new JFCXComponent(cChild);
+							GComponent gChild = new JFCXComponent(cChild,
+									window);
 							retList.add(gChild);
 						}
 					}
@@ -300,7 +299,7 @@ public class JFCXComponent extends GComponent {
 					nChildren = container.getComponentCount();
 					for (int i = 0; i < nChildren; i++) {
 						Component cChild = container.getComponent(i);
-						GComponent gChild = new JFCXComponent(cChild);
+						GComponent gChild = new JFCXComponent(cChild, window);
 						retList.add(gChild);
 					}
 				}
@@ -363,7 +362,7 @@ public class JFCXComponent extends GComponent {
 
 		Component parent = this.component.getParent();
 
-		return new JFCXComponent(parent);
+		return new JFCXComponent(parent, window);
 	}
 
 	/*
@@ -379,7 +378,7 @@ public class JFCXComponent extends GComponent {
 		if (xContext == null)
 			return false;
 
-		// TODO: Check tthis
+		// TODO: Check this
 		int nChildren = xContext.getAccessibleChildrenCount();
 
 		if (nChildren > 0)
@@ -588,15 +587,15 @@ public class JFCXComponent extends GComponent {
 	public List<GEvent> getEventList() {
 		List<GEvent> retEvents = new ArrayList<GEvent>();
 		EventManager em = EventManager.getInstance();
-		
-		for(Class<? extends GEvent > event : em.getEvents()){
-			Constructor<? extends GEvent > constructor;
+
+		for (Class<? extends GEvent> event : em.getEvents()) {
+			Constructor<? extends GEvent> constructor;
 			try {
-				
-				constructor = event.getConstructor(new Class[]{});
+
+				constructor = event.getConstructor(new Class[] {});
 				Object obj = constructor.newInstance();
-				if (obj instanceof GEvent){
-					GEvent gEvent = (GEvent)obj;
+				if (obj instanceof GEvent) {
+					GEvent gEvent = (GEvent) obj;
 					if (gEvent.isSupportedBy(this))
 						retEvents.add(gEvent);
 				}
@@ -620,39 +619,37 @@ public class JFCXComponent extends GComponent {
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
-//		AccessibleContext aContext = component.getAccessibleContext();
-//
-//		if (aContext == null)
-//			return retEvents;
-//
-//		Object event;
-//
-//		// Text
-//		event = aContext.getAccessibleEditableText();
-//		if (event != null) {
-//			retEvents.add(new JFCEditableTextHandler());
-//			return retEvents;
-//		}
 
-//		// Action
-//		event = aContext.getAccessibleAction();
-//		if (event != null) {
-//			retEvents.add(new JFCActionHandler());
-//			return retEvents;
-//		}
+		// AccessibleContext aContext = component.getAccessibleContext();
+		//
+		// if (aContext == null)
+		// return retEvents;
+		//
+		// Object event;
+		//
+		// // Text
+		// event = aContext.getAccessibleEditableText();
+		// if (event != null) {
+		// retEvents.add(new JFCEditableTextHandler());
+		// return retEvents;
+		// }
+
+		// // Action
+		// event = aContext.getAccessibleAction();
+		// if (event != null) {
+		// retEvents.add(new JFCActionHandler());
+		// return retEvents;
+		// }
 
 		// Selection
-//		event = aContext.getAccessibleSelection();
-//		if (event != null)
-//			retEvents.add(new JFCSelectionHandler());
+		// event = aContext.getAccessibleSelection();
+		// if (event != null)
+		// retEvents.add(new JFCSelectionHandler());
 
-//		// Value
-//		event = aContext.getAccessibleValue();
-//		if (event != null)
-//			retEvents.add(new JFCValueHandler());
+		// // Value
+		// event = aContext.getAccessibleValue();
+		// if (event != null)
+		// retEvents.add(new JFCValueHandler());
 
 		return retEvents;
 	}
@@ -774,32 +771,32 @@ public class JFCXComponent extends GComponent {
 		return false;
 	}
 
-	// ---------------------------------------
-	// Capture images
-	private void captureImage() {
-		// Toolkit.getDefaultToolkit().get
-		Robot robot;
-
-		try {
-			robot = new Robot();
-			Component comp = (Component) this.component;
-
-			Point pos = comp.getLocationOnScreen();
-			Dimension dim = comp.getSize();
-			Rectangle bounder = new Rectangle(pos, dim);
-
-			BufferedImage screenshot = robot.createScreenCapture(bounder);
-			File outputfile = new File("images/" + getID() + ".png");
-			ImageIO.write(screenshot, "png", outputfile);
-
-		} catch (IOException e) {
-
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			GUITARLog.log.error(e);
-		} catch (Exception e) {
-			GUITARLog.log.error(e);
-		}
-
-	}
+//	// ---------------------------------------
+//	// Capture images
+//	private void captureImage() {
+//		// Toolkit.getDefaultToolkit().get
+//		Robot robot;
+//
+//		try {
+//			robot = new Robot();
+//			Component comp = (Component) this.component;
+//
+//			Point pos = comp.getLocationOnScreen();
+//			Dimension dim = comp.getSize();
+//			Rectangle bounder = new Rectangle(pos, dim);
+//
+//			BufferedImage screenshot = robot.createScreenCapture(bounder);
+//			File outputfile = new File("images/" + getID() + ".png");
+//			ImageIO.write(screenshot, "png", outputfile);
+//
+//		} catch (IOException e) {
+//
+//		} catch (AWTException e) {
+//			// TODO Auto-generated catch block
+//			GUITARLog.log.error(e);
+//		} catch (Exception e) {
+//			GUITARLog.log.error(e);
+//		}
+//
+//	}
 }
