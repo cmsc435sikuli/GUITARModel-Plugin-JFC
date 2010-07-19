@@ -44,13 +44,19 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	Hashtable<List<String>, List<String>> h;
 
 	private static List<String> SIZE_ID_CLASSES = Arrays.asList(
-			"javax.swing.JRootPane", 
-			"javax.swing.JPanel");
-	
+			"javax.swing.JRootPane", "javax.swing.JPanel",
+			"javax.swing.JTextPane", "javax.swing.JViewport",
+			"javax.swing.JScrollPane$ScrollBar");
+
 	private static List<String> SIZE_ID_PROPERTIES = Arrays.asList("height",
 			"width");
 
 	private static List<String> POSSITION_ID_CLASSES = Arrays.asList(
+//			"javax.swing.plaf.metal.MetalScrollButton",
+			"javax.swing.JScrollPane$ScrollBar", "javax.swing.JTextPane",
+			"javax.swing.JTextField", "javax.swing.JViewport");
+
+	private static List<String> IGNORED_ID_CLASSES = Arrays.asList(
 			"javax.swing.plaf.metal.MetalScrollButton",
 			"javax.swing.JScrollPane$ScrollBar");
 
@@ -81,6 +87,14 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	 * edu.umd.cs.guitar.model.data.GUIType)
 	 */
 	public long getHashcodeFromData(ComponentType dComponent, GUIType dWindow) {
+
+		ComponentTypeWrapper wComponent = new ComponentTypeWrapper(dComponent);
+
+		String sClass = wComponent
+				.getFirstValueByName(GUITARConstants.CLASS_TAG_NAME);
+		if (IGNORED_ID_CLASSES.contains(sClass)) {
+			return 0;
+		}
 
 		preprocessID(dComponent);
 
@@ -150,7 +164,7 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 			if (lClassList.contains(sClass)) {
 				ID_PROPERTIES.addAll(h.get(lClassList));
 			}
-		}
+		} 
 
 	}
 

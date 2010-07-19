@@ -107,8 +107,8 @@ public class JFCConstants {
 	 */
 	static List<String> GUI_PROPERTIES_LIST = Arrays.asList("opaque", "x", "y",
 			"height", "width", "foreground", "background", "visible",
-			"tooltip", "font", "accelerator", "enabled", "focusable",
-			"selected", "text");
+			"tooltip", "font", "accelerator", "enabled", "editable",
+			"focusable", "selected", "text");
 
 	static List<String> WINDOW_PROPERTIES_LIST = Arrays.asList("layout", "x",
 			"y", "height", "width", "opaque", "visible", "alwaysOnTop",
@@ -125,10 +125,11 @@ public class JFCConstants {
 			.asList(JFCActionHandler.class, JFCEditableTextHandler.class,
 					JFCSelectFromParent.class, JFCValueHandler.class,
 					JFCSelectionHandler.class);
-//	public static List<Class<? extends JFCEventHandler>> DEFAULT_SUPPORTED_EVENTS = Arrays
-//	.asList(
-//			JFCSelectFromParent.class, JFCValueHandler.class,
-//			JFCSelectionHandler.class);
+	// public static List<Class<? extends JFCEventHandler>>
+	// DEFAULT_SUPPORTED_EVENTS = Arrays
+	// .asList(
+	// JFCSelectFromParent.class, JFCValueHandler.class,
+	// JFCSelectionHandler.class);
 
 	/**
 	 * JFC specific tags
