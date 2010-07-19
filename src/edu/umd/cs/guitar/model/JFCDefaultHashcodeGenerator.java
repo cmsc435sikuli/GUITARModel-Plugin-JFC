@@ -19,6 +19,9 @@
  */
 package edu.umd.cs.guitar.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 import java.lang.Math;
 
@@ -26,6 +29,8 @@ import edu.umd.cs.guitar.model.data.AttributesType;
 import edu.umd.cs.guitar.model.data.ComponentType;
 import edu.umd.cs.guitar.model.data.GUIType;
 import edu.umd.cs.guitar.model.data.PropertyType;
+import edu.umd.cs.guitar.model.wrapper.ComponentTypeWrapper;
+import edu.umd.cs.guitar.model.wrapper.GUITypeWrapper;
 
 /**
  * @author <a href="mailto:baonn@cs.umd.edu"> Bao N. Nguyen </a>
@@ -33,10 +38,31 @@ import edu.umd.cs.guitar.model.data.PropertyType;
  */
 public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 
-	static List<String> ID_PROPERTIES = JFCConstants.ID_PROPERTIES;
+	static List<String> ID_PROPERTIES = new ArrayList<String>(
+			JFCConstants.ID_PROPERTIES);
+
+	Hashtable<List<String>, List<String>> h;
+
+	private static List<String> SIZE_ID_CLASSES = Arrays.asList(
+			"javax.swing.JRootPane", 
+			"javax.swing.JPanel");
+	
+	private static List<String> SIZE_ID_PROPERTIES = Arrays.asList("height",
+			"width");
+
+	private static List<String> POSSITION_ID_CLASSES = Arrays.asList(
+			"javax.swing.plaf.metal.MetalScrollButton",
+			"javax.swing.JScrollPane$ScrollBar");
+
+	private static List<String> POSSITION_ID_PROPERTIES = Arrays.asList("x",
+			"y");
 
 	private JFCDefaultHashcodeGenerator() {
-	};
+
+		h = new Hashtable<List<String>, List<String>>();
+		h.put(POSSITION_ID_CLASSES, POSSITION_ID_PROPERTIES);
+		h.put(SIZE_ID_CLASSES, SIZE_ID_PROPERTIES);
+	}
 
 	static JFCDefaultHashcodeGenerator instance = null;
 
@@ -55,6 +81,9 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	 * edu.umd.cs.guitar.model.data.GUIType)
 	 */
 	public long getHashcodeFromData(ComponentType dComponent, GUIType dWindow) {
+
+		preprocessID(dComponent);
+
 		final int prime = 31;
 
 		long result = 1;
@@ -84,9 +113,44 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 			}
 		}
 
-		long code = (result * 2) & 0xffffffffL;
+		String sWindowTitle = getWindowTitle(dWindow);
 
-		return code;
+		result = (prime * result + (sWindowTitle == null ? 0 : (sWindowTitle
+				.hashCode())));
+
+		result = (result * 2) & 0xffffffffL;
+
+		return result;
+
+	}
+
+	/**
+	 * @param dWindow
+	 * @return
+	 */
+	private String getWindowTitle(GUIType dWindow) {
+		GUITypeWrapper wWindow = new GUITypeWrapper(dWindow);
+		String sTitle = wWindow.getTitle();
+		sTitle = sTitle.replace("*", "");
+		return sTitle;
+	}
+
+	/**
+	 * @param dComponent
+	 * 
+	 */
+	private void preprocessID(ComponentType dComponent) {
+		ComponentTypeWrapper wComponent = new ComponentTypeWrapper(dComponent);
+
+		String sClass = wComponent
+				.getFirstValueByName(GUITARConstants.CLASS_TAG_NAME);
+
+		for (List<String> lClassList : h.keySet()) {
+
+			if (lClassList.contains(sClass)) {
+				ID_PROPERTIES.addAll(h.get(lClassList));
+			}
+		}
 
 	}
 
