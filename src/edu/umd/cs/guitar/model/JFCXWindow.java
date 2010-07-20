@@ -318,4 +318,24 @@ public class JFCXWindow extends GWindow {
 	static List<String> INVALID_WINDOW_TITLE = Arrays.asList("",
 			"javax.swing.Popup$HeavyWeightWindow");
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.model.GObject#getX()
+	 */
+	@Override
+	public int getX() {
+		return window.getX();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.model.GObject#getY()
+	 */
+	@Override
+	public int getY() {
+		return window.getY();
+	}
+
 }

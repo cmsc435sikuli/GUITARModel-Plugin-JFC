@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.lang.Math;
 
 import edu.umd.cs.guitar.model.data.AttributesType;
@@ -46,19 +48,24 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	private static List<String> SIZE_ID_CLASSES = Arrays.asList(
 			"javax.swing.JRootPane", "javax.swing.JPanel",
 			"javax.swing.JTextPane", "javax.swing.JViewport",
-			"javax.swing.JScrollPane$ScrollBar");
+			"javax.swing.JScrollPane$ScrollBar",
+			"javax.swing.table.JTableHeader");
 
 	private static List<String> SIZE_ID_PROPERTIES = Arrays.asList("height",
 			"width");
 
 	private static List<String> POSSITION_ID_CLASSES = Arrays.asList(
-//			"javax.swing.plaf.metal.MetalScrollButton",
+			// "javax.swing.plaf.metal.MetalScrollButton",
 			"javax.swing.JScrollPane$ScrollBar", "javax.swing.JTextPane",
 			"javax.swing.JTextField", "javax.swing.JViewport");
 
 	private static List<String> IGNORED_ID_CLASSES = Arrays.asList(
 			"javax.swing.plaf.metal.MetalScrollButton",
-			"javax.swing.JScrollPane$ScrollBar");
+			"javax.swing.JScrollPane$ScrollBar",
+			// Rachota
+			"javax.swing.JSpinner$NumberEditor",
+			"javax.swing.plaf.basic.BasicComboPopup$1",
+			"javax.swing.plaf.basic.BasicComboPopup");
 
 	private static List<String> POSSITION_ID_PROPERTIES = Arrays.asList("x",
 			"y");
@@ -156,6 +163,8 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	private void preprocessID(ComponentType dComponent) {
 		ComponentTypeWrapper wComponent = new ComponentTypeWrapper(dComponent);
 
+
+		// Generate ID Properties list for widget 
 		String sClass = wComponent
 				.getFirstValueByName(GUITARConstants.CLASS_TAG_NAME);
 
@@ -164,8 +173,32 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 			if (lClassList.contains(sClass)) {
 				ID_PROPERTIES.addAll(h.get(lClassList));
 			}
-		} 
+		}
 
+	}
+	
+	
+	/**
+	 * Check if a string is match by a regular expression temporarily used for
+	 * matching window titles. Should move to some more general modules for
+	 * future use.
+	 * 
+	 * <p>
+	 * 
+	 * @param input
+	 * @param regExp
+	 * @return
+	 */
+	private boolean isRegMatched(String input, String regExp) {
+
+		Pattern pattern;
+		Matcher matcher;
+		pattern = Pattern.compile(regExp);
+		matcher = pattern.matcher(input);
+		if (matcher.matches())
+			return true;
+
+		return false;
 	}
 
 	/*

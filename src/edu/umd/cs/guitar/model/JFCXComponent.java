@@ -771,32 +771,68 @@ public class JFCXComponent extends GComponent {
 		return false;
 	}
 
-//	// ---------------------------------------
-//	// Capture images
-//	private void captureImage() {
-//		// Toolkit.getDefaultToolkit().get
-//		Robot robot;
-//
-//		try {
-//			robot = new Robot();
-//			Component comp = (Component) this.component;
-//
-//			Point pos = comp.getLocationOnScreen();
-//			Dimension dim = comp.getSize();
-//			Rectangle bounder = new Rectangle(pos, dim);
-//
-//			BufferedImage screenshot = robot.createScreenCapture(bounder);
-//			File outputfile = new File("images/" + getID() + ".png");
-//			ImageIO.write(screenshot, "png", outputfile);
-//
-//		} catch (IOException e) {
-//
-//		} catch (AWTException e) {
-//			// TODO Auto-generated catch block
-//			GUITARLog.log.error(e);
-//		} catch (Exception e) {
-//			GUITARLog.log.error(e);
-//		}
-//
-//	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.model.GComponent#getX()
+	 */
+	@Override
+	public int getX() {
+
+		// Component pointer = component;
+		//
+		// Component pointerNext = component.getParent();
+		//
+		// int x = 0;
+		//
+		// while (pointerNext != null) {
+		// x += pointer.getX();
+		// pointer = pointer.getParent();
+		// if (pointer == null)
+		// break;
+		// pointerNext = pointer.getParent();
+		// }
+
+		return component.getX();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.umd.cs.guitar.model.GComponent#getY()
+	 */
+	@Override
+	public int getY() {
+		int y = component.getY();
+		return y;
+	}
+
+	// // ---------------------------------------
+	// // Capture images
+	// private void captureImage() {
+	// // Toolkit.getDefaultToolkit().get
+	// Robot robot;
+	//
+	// try {
+	// robot = new Robot();
+	// Component comp = (Component) this.component;
+	//
+	// Point pos = comp.getLocationOnScreen();
+	// Dimension dim = comp.getSize();
+	// Rectangle bounder = new Rectangle(pos, dim);
+	//
+	// BufferedImage screenshot = robot.createScreenCapture(bounder);
+	// File outputfile = new File("images/" + getID() + ".png");
+	// ImageIO.write(screenshot, "png", outputfile);
+	//
+	// } catch (IOException e) {
+	//
+	// } catch (AWTException e) {
+	// // TODO Auto-generated catch block
+	// GUITARLog.log.error(e);
+	// } catch (Exception e) {
+	// GUITARLog.log.error(e);
+	// }
+	//
+	// }
 }
