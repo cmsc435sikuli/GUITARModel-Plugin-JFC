@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -778,22 +779,23 @@ public class JFCXComponent extends GComponent {
 	 */
 	@Override
 	public int getX() {
+		Component pointer = component;
 
-		// Component pointer = component;
-		//
-		// Component pointerNext = component.getParent();
-		//
-		// int x = 0;
-		//
-		// while (pointerNext != null) {
-		// x += pointer.getX();
-		// pointer = pointer.getParent();
-		// if (pointer == null)
-		// break;
-		// pointerNext = pointer.getParent();
-		// }
+		if (pointer == null || pointer instanceof Window)
+			return 0;
 
-		return component.getX();
+		//Component pointerParent = component.getParent();
+
+		int x = 0;
+
+		while (!(pointer instanceof Window)) {
+			x += pointer.getX();
+			pointer = pointer.getParent();
+			if (pointer == null)
+				break;
+		}
+
+		return x;
 	}
 
 	/*
@@ -803,7 +805,22 @@ public class JFCXComponent extends GComponent {
 	 */
 	@Override
 	public int getY() {
-		int y = component.getY();
+		Component pointer = component;
+
+		if (pointer == null || pointer instanceof Window)
+			return 0;
+
+		//Component pointerParent = component.getParent();
+
+		int y = 0;
+
+		while (!(pointer instanceof Window)) {
+			y += pointer.getY();
+			pointer = pointer.getParent();
+			if (pointer == null)
+				break;
+		}
+
 		return y;
 	}
 

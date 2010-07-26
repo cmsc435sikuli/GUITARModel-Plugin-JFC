@@ -54,26 +54,28 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	private static List<String> SIZE_ID_PROPERTIES = Arrays.asList("height",
 			"width");
 
-	private static List<String> POSSITION_ID_CLASSES = Arrays.asList(
+	private static List<String> POSITION_ID_CLASSES = Arrays.asList(
 			// "javax.swing.plaf.metal.MetalScrollButton",
 			"javax.swing.JScrollPane$ScrollBar", "javax.swing.JTextPane",
 			"javax.swing.JTextField", "javax.swing.JViewport");
 
-	private static List<String> IGNORED_ID_CLASSES = Arrays.asList(
-			"javax.swing.plaf.metal.MetalScrollButton",
-			"javax.swing.JScrollPane$ScrollBar",
-			// Rachota
-			"javax.swing.JSpinner$NumberEditor",
-			"javax.swing.plaf.basic.BasicComboPopup$1",
-			"javax.swing.plaf.basic.BasicComboPopup");
+	private static List<String> POSITION_ID_PROPERTIES = Arrays.asList("X",
+			"Y");
 
-	private static List<String> POSSITION_ID_PROPERTIES = Arrays.asList("x",
-			"y");
+	// private static List<String> IGNORED_ID_CLASSES = Arrays.asList(
+	// "javax.swing.plaf.metal.MetalScrollButton",
+	// "javax.swing.JScrollPane$ScrollBar",
+	// // Rachota
+	// "javax.swing.JSpinner$NumberEditor",
+	// "javax.swing.plaf.basic.BasicComboPopup$1",
+	// "javax.swing.plaf.basic.BasicComboPopup");
+
+	private static List<String> IGNORED_ID_CLASSES = Arrays.asList();
 
 	private JFCDefaultHashcodeGenerator() {
 
 		h = new Hashtable<List<String>, List<String>>();
-		h.put(POSSITION_ID_CLASSES, POSSITION_ID_PROPERTIES);
+		h.put(POSITION_ID_CLASSES, POSITION_ID_PROPERTIES);
 		h.put(SIZE_ID_CLASSES, SIZE_ID_PROPERTIES);
 	}
 
@@ -163,8 +165,7 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 	private void preprocessID(ComponentType dComponent) {
 		ComponentTypeWrapper wComponent = new ComponentTypeWrapper(dComponent);
 
-
-		// Generate ID Properties list for widget 
+		// Generate ID Properties list for widget
 		String sClass = wComponent
 				.getFirstValueByName(GUITARConstants.CLASS_TAG_NAME);
 
@@ -176,8 +177,7 @@ public class JFCDefaultHashcodeGenerator extends GHashcodeGenerator {
 		}
 
 	}
-	
-	
+
 	/**
 	 * Check if a string is match by a regular expression temporarily used for
 	 * matching window titles. Should move to some more general modules for
