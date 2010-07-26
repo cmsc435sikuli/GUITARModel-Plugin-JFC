@@ -105,7 +105,7 @@ public class JFCConstants {
 	/**
 	 * List of interested GUI properties
 	 */
-	static List<String> GUI_PROPERTIES_LIST = Arrays.asList("opaque", "x", "y",
+	static List<String> GUI_PROPERTIES_LIST = Arrays.asList("opaque", 
 			"height", "width", "foreground", "background", "visible",
 			"tooltip", "font", "accelerator", "enabled", "editable",
 			"focusable", "selected", "text");
