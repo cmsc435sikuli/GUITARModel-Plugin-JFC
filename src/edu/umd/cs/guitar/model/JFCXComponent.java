@@ -264,11 +264,13 @@ public class JFCXComponent extends GComponent {
 			// + container.getComponentCount());
 
 			try {
+				int nChildren = 0;
+
 				AccessibleContext aContext = container.getAccessibleContext();
 
 				if (aContext == null)
 					return retList;
-				int nChildren = aContext.getAccessibleChildrenCount();
+				nChildren = aContext.getAccessibleChildrenCount();
 
 				// GUITARLog.log.debug("\t Accessible Chidren: " + nChildren);
 				// for(int i = 0; i < nChildren; i ++){
@@ -784,7 +786,7 @@ public class JFCXComponent extends GComponent {
 		if (pointer == null || pointer instanceof Window)
 			return 0;
 
-		//Component pointerParent = component.getParent();
+		// Component pointerParent = component.getParent();
 
 		int x = 0;
 
@@ -810,7 +812,7 @@ public class JFCXComponent extends GComponent {
 		if (pointer == null || pointer instanceof Window)
 			return 0;
 
-		//Component pointerParent = component.getParent();
+		// Component pointerParent = component.getParent();
 
 		int y = 0;
 
