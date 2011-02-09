@@ -60,8 +60,6 @@ public class JFCApplication extends GApplication {
 		this.iInitialDelay = iInitialDelay;
 	}
 
-	final String[] URL_PREFIX = { "file:", "jar:", "http:" };
-
 	/**
 	 * @param sClassName
 	 * @param sURLs
@@ -84,19 +82,8 @@ public class JFCApplication extends GApplication {
 
 		// Additional URLs passed by arguments
 		for (String sURL : sURLs) {
-			for (String pref : URL_PREFIX) {
-				if (sURL.startsWith(pref)) {
-
-					URL appURL = new URL(sURL);
-					lURLs.add(appURL);
-
-					// GUITARLog.log.debug("GOT Application URL!!!!");
-					// GUITARLog.log.debug("Original: " + sURL);
-					// GUITARLog.log.debug("Converted: " + appURL.getPath());
-
-					break;
-				}
-			}
+			URL appURL = new URL("jar:file://" + sURL + "!/");
+			lURLs.add(appURL);
 		}
 
 		URL[] arrayURLs = (lURLs.toArray(new URL[lURLs.size()]));
