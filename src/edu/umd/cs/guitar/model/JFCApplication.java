@@ -81,8 +81,11 @@ public class JFCApplication extends GApplication {
 		}
 
 		// Additional URLs passed by arguments
+		String prStr =
+			System.getProperty("os.name").startsWith("Windows") ?
+			"file:/" : "file://";
 		for (String sURL : sURLs) {
-			URL appURL = new URL("jar:file://" + sURL + "!/");
+			URL appURL = new URL("jar:" + prStr + sURL + "!/");
 			lURLs.add(appURL);
 		}
 
