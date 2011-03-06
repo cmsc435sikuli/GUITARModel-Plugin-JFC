@@ -44,14 +44,14 @@
 
    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
-<project name="GUITARModel-Plugin-Sikuli" basedir=".." default="help">
+<project name="GUITARModel-Plugin-JFC" basedir=".." default="help">
 
-  <property name="module" value="GUITARModel-Plugin-Sikuli" />
+  <property name="module" value="GUITARModel-Plugin-JFC" />
   <import file="../../shared/ant/properties.xml" />
 
-  <property name="dependency_list" value="GUITARModel-Core-Sikuli" />
+  <property name="dependency_list" value="GUITARModel-Core" />
   <path id="dependency_list.buildfiles">
-    <fileset file="${root.dir}/GUITARModel-Core-Sikuli/install/build.xml" />
+    <fileset file="${root.dir}/GUITARModel-Core/install/build.xml" />
   </path>
 
   <path id="classpath">

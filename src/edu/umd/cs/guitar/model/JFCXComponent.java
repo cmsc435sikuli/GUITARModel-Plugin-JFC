@@ -63,7 +63,7 @@ import edu.umd.cs.guitar.util.GUITARLog;
  */
 public class JFCXComponent extends GComponent {
 
-	Component component;
+	//Component component;
 
 	// Accessible aComponent;
 
