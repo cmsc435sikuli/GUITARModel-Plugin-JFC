@@ -828,30 +828,35 @@ public class JFCXComponent extends GComponent {
 
 	// // ---------------------------------------
 	// // Capture images
-	// private void captureImage() {
-	// // Toolkit.getDefaultToolkit().get
-	// Robot robot;
-	//
-	// try {
-	// robot = new Robot();
-	// Component comp = (Component) this.component;
-	//
-	// Point pos = comp.getLocationOnScreen();
-	// Dimension dim = comp.getSize();
-	// Rectangle bounder = new Rectangle(pos, dim);
-	//
-	// BufferedImage screenshot = robot.createScreenCapture(bounder);
-	// File outputfile = new File("images/" + getID() + ".png");
-	// ImageIO.write(screenshot, "png", outputfile);
-	//
-	// } catch (IOException e) {
-	//
-	// } catch (AWTException e) {
-	// // TODO Auto-generated catch block
-	// GUITARLog.log.error(e);
-	// } catch (Exception e) {
-	// GUITARLog.log.error(e);
-	// }
-	//
-	// }
+	public void captureImage(String state) {
+		//Toolkit.getDefaultToolkit().get
+		
+		Robot robot;
+		
+		try {
+			robot = new Robot();
+			Component comp = this.component;
+
+			Point pos = comp.getLocationOnScreen();
+			Dimension dim = comp.getSize();
+			Rectangle bounder = new Rectangle(pos, dim);
+			
+			BufferedImage screenshot = robot.createScreenCapture(bounder);
+			File check = new File("images");
+			if(!check.isDirectory()){
+				check.mkdir();
+			}
+			File outputfile = new File(IMG_PATH + this.ID + state + ".png");
+			ImageIO.write(screenshot, "png", outputfile);
+			
+		} catch (IOException e) {
+			
+		} catch (AWTException e) {
+			
+			// TODO Auto-generated catch block
+		//	GUITARLog.log.error(e);
+		} catch (Exception e) {
+		//	GUITARLog.log.error(e);
+		}
+	}
 }
