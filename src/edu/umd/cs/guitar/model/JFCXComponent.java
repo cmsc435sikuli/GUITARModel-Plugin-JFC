@@ -826,8 +826,15 @@ public class JFCXComponent extends GComponent {
 		return y;
 	}
 
-	// // ---------------------------------------
-	// // Capture images
+
+	/**
+	 * Take a screenshot of the current GUI component and save
+	 * the image in a folder in the current directory.
+	 * 
+	 * @param state
+	 * Tells the method whether to save the image as a "before"
+	 * or as an "after" image.
+	 */
 	public void captureImage(String state) {
 		//Toolkit.getDefaultToolkit().get
 		
