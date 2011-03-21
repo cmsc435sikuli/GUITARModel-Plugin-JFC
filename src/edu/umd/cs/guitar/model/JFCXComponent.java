@@ -42,6 +42,8 @@ import javax.accessibility.AccessibleContext;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
+import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 
 import edu.umd.cs.guitar.event.EventManager;
 import edu.umd.cs.guitar.event.GEvent;
@@ -64,7 +66,8 @@ import edu.umd.cs.guitar.util.GUITARLog;
 public class JFCXComponent extends GComponent {
 
 	//Component component;
-
+	private static Component oldComp = null;
+	private static int oldID = -1;
 	// Accessible aComponent;
 
 	// /**
@@ -832,38 +835,106 @@ public class JFCXComponent extends GComponent {
 	 * the image in a folder in the current directory.
 	 * 
 	 * @param state
-	 * Tells the method whether to save the image as a "before"
-	 * or as an "after" image.
+	 * Tells the method whether or not the component is expandable.
+	 * If the component is expandable, state also tells the method 
+	 * whether to save the image as a "before" or as an "after" image. 
+	 * 
 	 */
 	public void captureImage(String state) {
 		//Toolkit.getDefaultToolkit().get
-		
-		Robot robot;
-		
-		try {
-			robot = new Robot();
-			Component comp = this.component;
 
-			Point pos = comp.getLocationOnScreen();
-			Dimension dim = comp.getSize();
-			Rectangle bounder = new Rectangle(pos, dim);
+		Robot robot;
 			
-			BufferedImage screenshot = robot.createScreenCapture(bounder);
-			File check = new File("images");
-			if(!check.isDirectory()){
-				check.mkdir();
+		if(this.ID != oldID){
+	
+			try {
+				robot = new Robot();
+				Component comp = this.component;
+				
+				if(oldComp != null && (comp instanceof JRadioButton || comp instanceof JRadioButtonMenuItem)){
+					Point pos = oldComp.getLocationOnScreen();
+					Dimension dim = oldComp.getSize();
+					Rectangle bounder = new Rectangle(pos, dim);
+
+					BufferedImage screenshot = robot.createScreenCapture(bounder);
+					File check = new File("images");
+					if(!check.isDirectory()){
+						check.mkdir();
+					}
+					if(state.equals("before_click")){
+						File outputfile = new File(IMG_PATH + oldID + "after_click" + ".png");
+						ImageIO.write(screenshot, "png", outputfile);
+					}
+					else{
+						File outputfile = new File(IMG_PATH + oldID + "before_click" + ".png");
+						ImageIO.write(screenshot, "png", outputfile);
+						oldComp = null;
+					}
+				}
+				
+				if(comp instanceof JRadioButton){
+					if(((JRadioButton)(comp)).isSelected() && state.equals("before_click")){
+						oldComp = comp;
+						oldID = this.ID;
+					}
+					else{
+						Point pos = comp.getLocationOnScreen();
+						Dimension dim = comp.getSize();
+						Rectangle bounder = new Rectangle(pos, dim);
+
+						BufferedImage screenshot = robot.createScreenCapture(bounder);
+						File check = new File("images");
+						if(!check.isDirectory()){
+							check.mkdir();
+						}
+						File outputfile = new File(IMG_PATH + this.ID + state + ".png");
+						ImageIO.write(screenshot, "png", outputfile);
+					}
+
+				}
+				else if(comp instanceof JRadioButtonMenuItem){
+					if(((JRadioButtonMenuItem)(comp)).isSelected() && state.equals("before_click")){
+						oldComp = comp;
+						oldID = this.ID;
+					}
+					else{
+						Point pos = comp.getLocationOnScreen();
+						Dimension dim = comp.getSize();
+						Rectangle bounder = new Rectangle(pos, dim);
+
+						BufferedImage screenshot = robot.createScreenCapture(bounder);
+						File check = new File("images");
+						if(!check.isDirectory()){
+							check.mkdir();
+						}
+						File outputfile = new File(IMG_PATH + this.ID + state + ".png");
+						ImageIO.write(screenshot, "png", outputfile);
+					}
+
+				}
+				else{
+					Point pos = comp.getLocationOnScreen();
+					Dimension dim = comp.getSize();
+					Rectangle bounder = new Rectangle(pos, dim);
+
+					BufferedImage screenshot = robot.createScreenCapture(bounder);
+					File check = new File("images");
+					if(!check.isDirectory()){
+						check.mkdir();
+					}
+					File outputfile = new File(IMG_PATH + this.ID + state + ".png");
+					ImageIO.write(screenshot, "png", outputfile);
+				}
+
+			} catch (IOException e) {
+
+			} catch (AWTException e) {
+
+				// TODO Auto-generated catch block
+				//	GUITARLog.log.error(e);
+			} catch (Exception e) {
+				//	GUITARLog.log.error(e);
 			}
-			File outputfile = new File(IMG_PATH + this.ID + state + ".png");
-			ImageIO.write(screenshot, "png", outputfile);
-			
-		} catch (IOException e) {
-			
-		} catch (AWTException e) {
-			
-			// TODO Auto-generated catch block
-		//	GUITARLog.log.error(e);
-		} catch (Exception e) {
-		//	GUITARLog.log.error(e);
 		}
 	}
 }
