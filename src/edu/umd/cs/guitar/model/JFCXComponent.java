@@ -844,13 +844,20 @@ public class JFCXComponent extends GComponent {
 		//Toolkit.getDefaultToolkit().get
 
 		Robot robot;
-			
+		Component comp = this.component;
+		Dimension window = ((JFCXWindow)(this.window)).getWindow().getSize();
+		int width = window.width;
+        int height = window.height;
+		
+        if( (comp.getX() + comp.getSize().getWidth() < this.window.getX()) || (comp.getX() > this.window.getX() + width) ||
+        		(comp.getY() + comp.getSize().getHeight() < this.window.getY()) || (comp.getY() > this.window.getY() + height)){
+        	return;
+        }	
 		if(this.ID != oldID){
 	
 			try {
 				robot = new Robot();
-				Component comp = this.component;
-				
+		
 				if(oldComp != null && (comp instanceof JRadioButton || comp instanceof JRadioButtonMenuItem)){
 					Point pos = oldComp.getLocationOnScreen();
 					Dimension dim = oldComp.getSize();
