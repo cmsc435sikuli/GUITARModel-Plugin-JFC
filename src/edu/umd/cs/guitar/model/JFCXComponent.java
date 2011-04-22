@@ -850,6 +850,7 @@ public class JFCXComponent extends GComponent {
 		int width = window.width;
         int height = window.height;
 		
+	//If the image is outside the window, don't take a picture. instead, return false.
         if( (comp.getX() + comp.getSize().getWidth() < this.window.getX()) || (comp.getX() > this.window.getX() + width) ||
         		(comp.getY() + comp.getSize().getHeight() < this.window.getY()) || (comp.getY() > this.window.getY() + height)){
         	return false;
@@ -859,6 +860,19 @@ public class JFCXComponent extends GComponent {
 			try {
 				robot = new Robot();
 		
+				/*Confusing! Let's demystify a bit.
+				* Sometimes we want to take 2 pictures because the buttons have different visual
+				* states. This is easy if it is a checkbox but not so trivial if it is a group of
+				* radioButtons. Picture this:
+					(*) Button1
+					( ) Button2
+					( ) Button3
+				* We want 6 pictues, Button1 with its radiobutton filled in, button1 with its radiobutton empty, etc...
+				* But the first button will always be filled in first, so this takes some finessing (or sloppy hacks. call it what you want)
+				* because you need to click another button in the group to unselect the selected one.
+				*/
+
+				//we hit this button before but didn't take a picture because it was selected. time to take its picture.
 				if(oldComp != null && (comp instanceof JRadioButton || comp instanceof JRadioButtonMenuItem)){
 					Point pos = oldComp.getLocationOnScreen();
 					Dimension dim = oldComp.getSize();
@@ -881,10 +895,12 @@ public class JFCXComponent extends GComponent {
 				}
 				
 				if(comp instanceof JRadioButton){
+					//if it is selected, don't take the picture. save it for later
 					if(((JRadioButton)(comp)).isSelected() && state.equals("before_click")){
 						oldComp = comp;
 						oldID = this.ID;
 					}
+					//otherwise, snap away.
 					else{
 						Point pos = comp.getLocationOnScreen();
 						Dimension dim = comp.getSize();
