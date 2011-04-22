@@ -67,6 +67,7 @@ public class JFCXComponent extends GComponent {
 
 	//Component component;
 	private static Component oldComp = null;
+	private Component component;
 	private static int oldID = -1;
 	// Accessible aComponent;
 
@@ -840,7 +841,7 @@ public class JFCXComponent extends GComponent {
 	 * whether to save the image as a "before" or as an "after" image. 
 	 * 
 	 */
-	public void captureImage(String state) {
+	public boolean captureImage(String state) {
 		//Toolkit.getDefaultToolkit().get
 
 		Robot robot;
@@ -851,7 +852,7 @@ public class JFCXComponent extends GComponent {
 		
         if( (comp.getX() + comp.getSize().getWidth() < this.window.getX()) || (comp.getX() > this.window.getX() + width) ||
         		(comp.getY() + comp.getSize().getHeight() < this.window.getY()) || (comp.getY() > this.window.getY() + height)){
-        	return;
+        	return false;
         }	
 		if(this.ID != oldID){
 	
@@ -934,14 +935,18 @@ public class JFCXComponent extends GComponent {
 				}
 
 			} catch (IOException e) {
+				return false;
 
 			} catch (AWTException e) {
 
 				// TODO Auto-generated catch block
 				//	GUITARLog.log.error(e);
+				return false;
 			} catch (Exception e) {
 				//	GUITARLog.log.error(e);
+				return false;
 			}
 		}
+		return true;
 	}
 }
